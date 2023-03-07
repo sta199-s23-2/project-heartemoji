@@ -19,25 +19,44 @@ library(tidyverse)
 
 -   Identify the source of the data.
 
+The dataset was found on Kaggle.com: https://www.kaggle.com/datasets/nishaanamin/march-madness-data
+
 -   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
 
+The data is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>.
+
 -   Write a brief description of the observations.
+
+There are `1011` observations and `41` variables in the dataset.
 
 ## Research question
 
 -   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
 
+1.  What is the best predictor for predicting an upset?
+2.  Does the 2023 March Madness winner align with our model prediction?
+
 -   A description of the research topic along with a concise statement of your hypotheses on this topic.
 
+Focusing on the first research question, our research topic is using both the Tournament Team Data and Upset Count Data from 2008-2023 to try and figure out which predictor will be the best to predict an upset. Our hypothesis is that teams that score the most and give up the most points will do the best. In addition, we will look at previous upsets and analyze trends. Overall, however, we would need to play around with the dataset more before settling on a finalized hypothesis.
+
 -   Identify the types of variables in your research question. Categorical? Quantitative?
+
+There are both categorical variables (e.g., Seed, Year, and Round) and quantitative variables (e.g., Points per Possession Offensive, Points per Possession Defensive, and Strength of Schedule).
 
 ## Literature
 
 -   Find one published credible article on the topic you are interested in researching.
 
+Downs, Sarah. "Using Statistics to Create the Perfect March Madness Bracket." Journal of Sports Analytics, vol. 5, no. 2, 2019. https://escholarship.org/uc/item/7s99n4nq
+
 -   Provide a one paragraph summary about the article.
 
+The use of statistical analysis to forecast the results of the yearly NCAA Men's Basketball Tournament, often known as March Madness, is explored in the article "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs. The article explores different statistical forecasting techniques and emphasizes the significance of elements like team performance measures, player statistics, and historical trends. The author also highlights the possible advantages of employing statistical models to choose brackets in a more informed manner, such as raising the likelihood of succeeding in office pools or online competitions.
+
 -   In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.
+
+While the article discusses different metrics for statistical forecasting, we are 1). specific to predicting upsets rather than building a bracket, and 2). we use different variables.
 
 ## Glimpse of data
 
