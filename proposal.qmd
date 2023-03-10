@@ -76,17 +76,31 @@ glimpse(march_madness)
 
 -   Identify the source of the data.
 
+    The data was found on Kaggle (https://www.kaggle.com/datasets/rashikrahmanpritom/heart-attack-analysis-prediction-dataset).
+
 -   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
+
+    The dataset was found by compiling datasets found online from medical centers by its creator Rashik Rahman. It is not exactly clear when the dataset was created, but it has been updated yearly since it was created.
 
 -   Write a brief description of the observations.
 
+    The observations are centered around medical testing and data for patients. There are things like age, heart rate, and other useful data to know when trying to diagnose someone with a heart attack. In total, there are `353` observations and `14` variables.
+
 ## Research question
 
--   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
+-   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.
+
+    -   What measurements and patient information is the best predictor for whether or not the patient will have a heart attack?
+
+        -   This is a significant question because heart attacks are one of the leading causes of death in America so being better able to recognize signs of one would help human health tremendously.
 
 -   A description of the research topic along with a concise statement of your hypotheses on this topic.
 
+    -   Heart attacks are one of the leading causes of death in America. One of the reasons why they are so fatal is because they are hard to track before they actually happen. This is something that is important for health officials to get better at in order to help improve patient health. Being better able to predict likelihood of a heart attack from data already available would be a highly useful tool. Our hypothesis on the topic is that people who are older, people with a higher resting heart rate, and people who experience chest pain are more likely to experience a heart attack.
+
 -   Identify the types of variables in your research question. Categorical? Quantitative?
+
+    -   Chest pain and heart attack are all categorical variables. Resting heart rate and age are quantitative variables.
 
 ## Literature
 
@@ -111,18 +125,16 @@ glimpse(march_madness)
 -   Identify the source of the data.
     -   The dataset was downloaded from here: https://www.kaggle.com/datasets/thedevastator/higher-education-predictors-of-student-retention
 
-```{=html}
 <!-- -->
-```
+
 -   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
 
     -   The data was published in the paper, "Predicting Student Dropout and Academic Success" in October of 2022. The data is from students enrolled in the Instituto Politécnico de Portalegre from 2008/09 to 2018/19. Data was gathered from AMS, PAE, DGES, PORDATA (refer to paper for more details).
 
     -   <https://doi.org/10.3390/data7110146>
 
-```{=html}
 <!-- -->
-```
+
 -   Write a brief description of the observations.
 
     -   There are `4424` observations and `35` variables. Each observation represents one student, and the variables include both categorical and quantitative variables.
