@@ -106,16 +106,24 @@ glimpse(march_madness)
 
 -   Find one published credible article on the topic you are interested in researching.
 
+    -   Alexander CA, Wang L (2017) Big Data Analytics in Heart Attack Prediction. J Nurs Care 6: 393. doi:10.4172/2167-1168.1000393
+
 -   Provide a one paragraph summary about the article.
 
+    -   This article focuses on using heart attack data to make a prediction about finding heart attacks before they happen. It takes data from thousands of heart attack patients to try to develop a model to better predict heart attacks and prevent them. In particular, they also focus on how getting certain measurements or readings for a test should impact the care that a patient is receiving from their care provider. Much of the article explains how they sourced their data and how they eventually were able to create a model that they felt was useful in big data and heart attacks.
+
 -   In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.
+
+    -   Our research question builds on the article by continuing to add more variables to the Big Data Equation and finding an even more accurate and concise model for predicting heart attacks.
 
 ## Glimpse of data
 
 ```{r}
 #| label: load-data-2
 
-# add code here
+heart <- read_csv("data/heart.csv")
+
+glimpse(heart)
 ```
 
 # Data 3
