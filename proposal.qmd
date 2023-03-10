@@ -64,6 +64,8 @@ While the article discusses different metrics for statistical forecasting, we ar
 #| label: load-data-1
 
 march_madness <- read_csv("data/Tournament Team Data (Including 2023).csv")
+
+glimpse(march_madness)
 ```
 
 # Data 2
@@ -131,5 +133,7 @@ march_madness <- read_csv("data/Tournament Team Data (Including 2023).csv")
 ```{r}
 #| label: load-data-3
 
-# add code here
+college_data <- read_csv("data/College_Data.csv")
+
+glimpse(college_data)
 ```

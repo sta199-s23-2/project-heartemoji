@@ -2,19 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.36">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="heartemoji, Morgan Feng, Sophie Mansoor, Sarah Wu">
 
 <title>Project title</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -53,7 +59,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -66,7 +72,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -157,7 +163,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
@@ -198,6 +204,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>heartemoji, Morgan Feng, Sophie Mansoor, Sarah Wu </p>
+          </div>
+  </div>
     
     
   </div>
@@ -207,49 +219,119 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.2.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyr' was built under R version 4.2.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'readr' was built under R version 4.2.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'purrr' was built under R version 4.2.2</code></pre>
-</div>
 </div>
 <section id="data-1" class="level1">
 <h1>Data 1</h1>
 <section id="introduction-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-and-data">Introduction and data</h2>
 <ul>
-<li><p>Identify the source of the data.</p></li>
-<li><p>State when and how it was originally collected (by the original data curator, not necessarily how you found the data).</p></li>
-<li><p>Write a brief description of the observations.</p></li>
+<li>Identify the source of the data.</li>
 </ul>
+<p>The dataset was found on Kaggle.com: https://www.kaggle.com/datasets/nishaanamin/march-madness-data</p>
+<ul>
+<li>State when and how it was originally collected (by the original data curator, not necessarily how you found the data).</li>
+</ul>
+<p>The data is pulled from <a href="https://kenpom.com/" class="uri">https://kenpom.com/</a> and <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>.</p>
+<ul>
+<li>Write a brief description of the observations.</li>
+</ul>
+<p>There are <code>1011</code> observations and <code>41</code> variables in the dataset.</p>
 </section>
 <section id="research-question" class="level2">
 <h2 class="anchored" data-anchor-id="research-question">Research question</h2>
 <ul>
 <li>A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)</li>
+</ul>
+<ol type="1">
+<li>What is the best predictor for predicting an upset?</li>
+<li>Does the 2023 March Madness winner align with our model prediction?</li>
+</ol>
+<ul>
 <li>A description of the research topic along with a concise statement of your hypotheses on this topic.</li>
+</ul>
+<p>Focusing on the first research question, our research topic is using both the Tournament Team Data and Upset Count Data from 2008-2023 to try and figure out which predictor will be the best to predict an upset. Our hypothesis is that teams that score the most and give up the most points will do the best. In addition, we will look at previous upsets and analyze trends. Overall, however, we would need to play around with the dataset more before settling on a finalized hypothesis.</p>
+<ul>
 <li>Identify the types of variables in your research question. Categorical? Quantitative?</li>
 </ul>
+<p>There are both categorical variables (e.g., Seed, Year, and Round) and quantitative variables (e.g., Points per Possession Offensive, Points per Possession Defensive, and Strength of Schedule).</p>
 </section>
 <section id="literature" class="level2">
 <h2 class="anchored" data-anchor-id="literature">Literature</h2>
 <ul>
-<li><p>Find one published credible article on the topic you are interested in researching.</p></li>
-<li><p>Provide a one paragraph summary about the article.</p></li>
-<li><p>In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.</p></li>
+<li>Find one published credible article on the topic you are interested in researching.</li>
 </ul>
+<p>Downs, Sarah. “Using Statistics to Create the Perfect March Madness Bracket.” Journal of Sports Analytics, vol.&nbsp;5, no. 2, 2019. https://escholarship.org/uc/item/7s99n4nq</p>
+<ul>
+<li>Provide a one paragraph summary about the article.</li>
+</ul>
+<p>The use of statistical analysis to forecast the results of the yearly NCAA Men’s Basketball Tournament, often known as March Madness, is explored in the article “Using Statistics to Build the Ideal March Madness Bracket” by Sarah Downs. The article explores different statistical forecasting techniques and emphasizes the significance of elements like team performance measures, player statistics, and historical trends. The author also highlights the possible advantages of employing statistical models to choose brackets in a more informed manner, such as raising the likelihood of succeeding in office pools or online competitions.</p>
+<ul>
+<li>In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.</li>
+</ul>
+<p>While the article discusses different metrics for statistical forecasting, we are 1). specific to predicting upsets rather than building a bracket, and 2). we use different variables.</p>
 </section>
 <section id="glimpse-of-data" class="level2">
 <h2 class="anchored" data-anchor-id="glimpse-of-data">Glimpse of data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/Tournament Team Data (Including 2023).csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+Rows: 1011 Columns: 41
+── Column specification
+──────────────────────────────────────────────────────── Delimiter: "," chr
+(2): TEAM...3, TEAM...41 dbl (39): YEAR, SEED, ROUND, KENPOM ADJUSTED
+EFFICIENCY, KENPOM ADJUSTED OFF...
+ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+Specify the column types or set `show_col_types = FALSE` to quiet this message.
+• `TEAM` -&gt; `TEAM...3`
+• `TEAM` -&gt; `TEAM...41`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(march_madness)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,011
+Columns: 41
+$ YEAR                             &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2…
+$ SEED                             &lt;dbl&gt; 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4…
+$ TEAM...3                         &lt;chr&gt; "Alabama", "Houston", "Kansas", "Purd…
+$ ROUND                            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ `KENPOM ADJUSTED EFFICIENCY`     &lt;dbl&gt; 26.73920, 29.87710, 23.57170, 16.5061…
+$ `KENPOM ADJUSTED OFFENSE`        &lt;dbl&gt; 117.282, 120.705, 116.121, 106.009, 1…
+$ `KENPOM ADJUSTED DEFENSE`        &lt;dbl&gt; 90.5425, 90.8275, 92.5493, 89.5029, 1…
+$ `KENPOM ADJUSTED TEMPO`          &lt;dbl&gt; 73.5025, 63.3631, 69.6867, 66.0917, 6…
+$ `BARTTORVIK ADJUSTED EFFICIENCY` &lt;dbl&gt; 26.777, 29.444, 20.844, 24.427, 24.55…
+$ `BARTTORVIK ADJUSTED OFFENSE`    &lt;dbl&gt; 118.636, 121.719, 115.656, 119.296, 1…
+$ `BARTTORVIK ADJUSTED DEFENSE`    &lt;dbl&gt; 91.859, 92.275, 94.812, 94.869, 90.34…
+$ BARTHAG                          &lt;dbl&gt; 0.950, 0.960, 0.908, 0.933, 0.941, 0.…
+$ `ELITE SOS`                      &lt;dbl&gt; 30.745, 20.628, 34.259, 26.794, 25.23…
+$ `BARTTORVIK ADJUSTED TEMPO`      &lt;dbl&gt; 73.363, 63.190, 69.370, 64.178, 66.35…
+$ `2PT %`                          &lt;dbl&gt; 54.5, 54.2, 52.8, 53.9, 50.9, 54.5, 5…
+$ `3PT %`                          &lt;dbl&gt; 35, 35, 35, 33, 35, 35, 37, 37, 34, 3…
+$ `FREE THROW %`                   &lt;dbl&gt; 72.3, 71.6, 72.5, 75.3, 70.1, 74.5, 7…
+$ `EFG %`                          &lt;dbl&gt; 53.4, 53.7, 52.6, 52.3, 51.6, 53.6, 5…
+$ `FREE THROW RATE`                &lt;dbl&gt; 38.6, 27.4, 30.2, 36.3, 25.5, 31.3, 3…
+$ `3PT RATE`                       &lt;dbl&gt; 47.1, 37.3, 34.0, 38.2, 28.7, 35.4, 4…
+$ `ASSIST %`                       &lt;dbl&gt; 53.9, 53.2, 61.3, 60.5, 51.8, 57.0, 5…
+$ `OFFENSIVE REBOUND %`            &lt;dbl&gt; 33.2, 38.1, 29.2, 38.4, 34.1, 29.0, 3…
+$ `DEFENSIVE REBOUND %`            &lt;dbl&gt; 72.6, 72.1, 71.3, 77.0, 71.7, 70.8, 6…
+$ `BLOCK %`                        &lt;dbl&gt; 11.2, 17.0, 10.7, 10.4, 12.1, 9.9, 7.…
+$ `TURNOVER %`                     &lt;dbl&gt; 18.9, 15.1, 17.2, 17.3, 15.3, 16.7, 1…
+$ `2PT % DEFENSE`                  &lt;dbl&gt; 42.1, 42.6, 46.4, 47.4, 46.9, 48.3, 5…
+$ `3PT % DEFENSE`                  &lt;dbl&gt; 27.4, 27.5, 31.6, 30.5, 30.7, 33.2, 3…
+$ `FREE THROW % DEFENSE`           &lt;dbl&gt; 69.7, 69.6, 72.0, 73.1, 70.5, 72.9, 7…
+$ `EFG % DEFENSE`                  &lt;dbl&gt; 41.8, 42.0, 46.8, 46.8, 46.5, 48.8, 5…
+$ `FREE THROW RATE DEFENSE`        &lt;dbl&gt; 32.8, 34.1, 31.9, 18.1, 26.8, 35.3, 3…
+$ `3PT RATE DEFENSE`               &lt;dbl&gt; 30.9, 45.0, 35.8, 34.5, 39.7, 35.9, 3…
+$ `OP ASSIST %`                    &lt;dbl&gt; 42.3, 53.6, 45.0, 51.0, 52.2, 47.9, 6…
+$ `OP O REB %`                     &lt;dbl&gt; 27.4, 27.9, 28.7, 23.0, 28.3, 29.2, 3…
+$ `OP D REB %`                     &lt;dbl&gt; 67, 62, 71, 62, 66, 71, 64, 68, 69, 7…
+$ `BLOCKED %`                      &lt;dbl&gt; 11.8, 7.0, 7.3, 8.5, 6.3, 8.2, 9.0, 9…
+$ `TURNOVER % DEFENSE`             &lt;dbl&gt; 15.7, 22.2, 20.4, 15.4, 24.3, 22.6, 1…
+$ `WINS ABOVE BUBBLE`              &lt;dbl&gt; 8.6, 7.1, 9.5, 6.5, 6.8, 5.8, 6.4, 5.…
+$ `WIN %`                          &lt;dbl&gt; 86.20690, 93.10345, 83.33333, 82.7586…
+$ `POINTS PER POSSESSION OFFENSE`  &lt;dbl&gt; 1.114, 1.179, 1.075, 1.135, 1.103, 1.…
+$ `POINTS PER POSSESSION DEFENSE`  &lt;dbl&gt; 0.924, 0.866, 0.960, 0.963, 0.893, 0.…
+$ TEAM...41                        &lt;chr&gt; "Alabama", "Houston", "Kansas", "Purd…</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -266,9 +348,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="research-question-1" class="level2">
 <h2 class="anchored" data-anchor-id="research-question-1">Research question</h2>
 <ul>
-<li>A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)</li>
-<li>A description of the research topic along with a concise statement of your hypotheses on this topic.</li>
-<li>Identify the types of variables in your research question. Categorical? Quantitative?</li>
+<li><p>A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)</p></li>
+<li><p>A description of the research topic along with a concise statement of your hypotheses on this topic.</p></li>
+<li><p>Identify the types of variables in your research question. Categorical? Quantitative?</p></li>
 </ul>
 </section>
 <section id="literature-1" class="level2">
@@ -282,7 +364,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="glimpse-of-data-1" class="level2">
 <h2 class="anchored" data-anchor-id="glimpse-of-data-1">Glimpse of data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -299,9 +381,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="research-question-2" class="level2">
 <h2 class="anchored" data-anchor-id="research-question-2">Research question</h2>
 <ul>
-<li>A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)</li>
-<li>A description of the research topic along with a concise statement of your hypotheses on this topic.</li>
-<li>Identify the types of variables in your research question. Categorical? Quantitative?</li>
+<li><p>A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)</p></li>
+<li><p>A description of the research topic along with a concise statement of your hypotheses on this topic.</p></li>
+<li><p>Identify the types of variables in your research question. Categorical? Quantitative?</p></li>
 </ul>
 </section>
 <section id="literature-2" class="level2">
@@ -315,7 +397,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="glimpse-of-data-2" class="level2">
 <h2 class="anchored" data-anchor-id="glimpse-of-data-2">Glimpse of data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>college_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/College_Data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+Rows: 777 Columns: 19
+── Column specification
+──────────────────────────────────────────────────────── Delimiter: "," chr
+(2): ...1, Private dbl (17): Apps, Accept, Enroll, Top10perc, Top25perc,
+F.Undergrad, P.Undergr...
+ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+Specify the column types or set `show_col_types = FALSE` to quiet this message.
+• `` -&gt; `...1`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(college_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 777
+Columns: 19
+$ ...1        &lt;chr&gt; "Abilene Christian University", "Adelphi University", "Adr…
+$ Private     &lt;chr&gt; "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Y…
+$ Apps        &lt;dbl&gt; 1660, 2186, 1428, 417, 193, 587, 353, 1899, 1038, 582, 173…
+$ Accept      &lt;dbl&gt; 1232, 1924, 1097, 349, 146, 479, 340, 1720, 839, 498, 1425…
+$ Enroll      &lt;dbl&gt; 721, 512, 336, 137, 55, 158, 103, 489, 227, 172, 472, 484,…
+$ Top10perc   &lt;dbl&gt; 23, 16, 22, 60, 16, 38, 17, 37, 30, 21, 37, 44, 38, 44, 23…
+$ Top25perc   &lt;dbl&gt; 52, 29, 50, 89, 44, 62, 45, 68, 63, 44, 75, 77, 64, 73, 46…
+$ F.Undergrad &lt;dbl&gt; 2885, 2683, 1036, 510, 249, 678, 416, 1594, 973, 799, 1830…
+$ P.Undergrad &lt;dbl&gt; 537, 1227, 99, 63, 869, 41, 230, 32, 306, 78, 110, 44, 638…
+$ Outstate    &lt;dbl&gt; 7440, 12280, 11250, 12960, 7560, 13500, 13290, 13868, 1559…
+$ Room.Board  &lt;dbl&gt; 3300, 6450, 3750, 5450, 4120, 3335, 5720, 4826, 4400, 3380…
+$ Books       &lt;dbl&gt; 450, 750, 400, 450, 800, 500, 500, 450, 300, 660, 500, 400…
+$ Personal    &lt;dbl&gt; 2200, 1500, 1165, 875, 1500, 675, 1500, 850, 500, 1800, 60…
+$ PhD         &lt;dbl&gt; 70, 29, 53, 92, 76, 67, 90, 89, 79, 40, 82, 73, 60, 79, 36…
+$ Terminal    &lt;dbl&gt; 78, 30, 66, 97, 72, 73, 93, 100, 84, 41, 88, 91, 84, 87, 6…
+$ S.F.Ratio   &lt;dbl&gt; 18.1, 12.2, 12.9, 7.7, 11.9, 9.4, 11.5, 13.7, 11.3, 11.5, …
+$ perc.alumni &lt;dbl&gt; 12, 16, 30, 37, 2, 11, 26, 37, 23, 15, 31, 41, 21, 32, 26,…
+$ Expend      &lt;dbl&gt; 7041, 10527, 8735, 19016, 10922, 9727, 8861, 11487, 11644,…
+$ Grad.Rate   &lt;dbl&gt; 60, 56, 54, 59, 15, 55, 63, 73, 80, 52, 73, 76, 74, 68, 55…</code></pre>
+</div>
 </div>
 
 
@@ -392,7 +509,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
