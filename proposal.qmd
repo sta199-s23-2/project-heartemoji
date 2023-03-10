@@ -36,6 +36,8 @@ There are `1011` observations and `41` variables in the dataset.
 1.  What is the best predictor for predicting an upset?
 2.  Does the 2023 March Madness winner align with our model prediction?
 
+These questions are important because March Madness is a pivotal and important part of the NCAA, and learning more about how to analyze the tournament through data science can foster the intersection between sports and technology.
+
 -   A description of the research topic along with a concise statement of your hypotheses on this topic.
 
 Focusing on the first research question, our research topic is using both the Tournament Team Data and Upset Count Data from 2008-2023 to try and figure out which predictor will be the best to predict an upset. Our hypothesis is that teams that score the most and give up the most points will do the best. In addition, we will look at previous upsets and analyze trends. Overall, however, we would need to play around with the dataset more before settling on a finalized hypothesis.
