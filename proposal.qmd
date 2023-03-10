@@ -109,35 +109,66 @@ glimpse(march_madness)
 ## Introduction and data
 
 -   Identify the source of the data.
+    -   The dataset was downloaded from here: https://www.kaggle.com/datasets/thedevastator/higher-education-predictors-of-student-retention
 
-The dataset was found on kaggle.com: https://www.kaggle.com/datasets/yashgpt/us-college-data?resource=download
-
+```{=html}
+<!-- -->
+```
 -   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
 
+    -   The data was published in the paper, "Predicting Student Dropout and Academic Success" in October of 2022. The data is from students enrolled in the Instituto Politécnico de Portalegre from 2008/09 to 2018/19. Data was gathered from AMS, PAE, DGES, PORDATA (refer to paper for more details).
+
+    -   <https://doi.org/10.3390/data7110146>
+
+```{=html}
+<!-- -->
+```
 -   Write a brief description of the observations.
+
+    -   There are `4424` observations and `35` variables. Each observation represents one student, and the variables include both categorical and quantitative variables.
+
+-   There does not seem to be any ethical concerns about the data.
 
 ## Research question
 
 -   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
 
+    -   Comparing students who dropped out vs those who graduated, is there a significant difference between age at enrollment and if they had daytime or evening attendance?
+
+        -   This question is important because by noticing trends in dropouts, institutions can predict who are most likely to dropout according to demographics and provide them additional support, if needed.
+
 -   A description of the research topic along with a concise statement of your hypotheses on this topic.
 
+    -   The research topic is on college dropouts. Students drop out of school for many reasons, and it can be important to note if there are any significant trends among dropouts. This dataset provides various demographic data that we plan to compare for dropouts vs those who graduated. Our hypothesis is that dropouts will tend to be older and a greater proportion will have evening attendance compared to those who graduated from the institution.
+
 -   Identify the types of variables in your research question. Categorical? Quantitative?
+
+    -   Variable 1: Target, categorical
+
+    -   Variable 2: Age, quantitative
+
+    -   Variable 3: Daytime/evening attendance, categorical
 
 ## Literature
 
 -   Find one published credible article on the topic you are interested in researching.
 
+    -   Crosta, Peter Michael. "Characteristics of early community college dropouts." (2013).
+
 -   Provide a one paragraph summary about the article.
 
+    -   The article aims to discover trends in community college drop outs since a student who drops out of community college is very costly for federal, state, and local authorities. The article looks at students who are part-time students as well, and it also specifically looked at students who dropped out early in their college career, rather than looking at all dropouts as a whole. These early dropouts are compared to students who were enrolled at least twice within four terms. The article found that students who dropped out tended to be older, had less financial aid, and performed worse academically compared to the students who were still enrolled. Some other variables were also measured, such as socioeconomic status index, that did not show a significant difference between the two groups.
+
 -   In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.
+
+    -   Our research question builds on this article as we look at dropouts from an institution rather than a community college and we add in the variable of daytime vs evening attendance, which we hypothesize has a significant difference between dropouts and graduates. We also compare dropouts to those that graduated instead of those still enrolled, since it is possible that those compared to the dropouts in the article dropped out at a later term.
 
 ## Glimpse of data
 
 ```{r}
 #| label: load-data-3
 
-california_houses <- read_csv("data/California_Houses.csv")
+academic_success <- read_csv("data/dataset.csv")
 
-glimpse(california_houses)
+glimpse(academic_success)
 ```
