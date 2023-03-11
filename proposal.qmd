@@ -23,7 +23,7 @@ The dataset was found on Kaggle.com: https://www.kaggle.com/datasets/nishaanamin
 
 -   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
 
-The data is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>.
+The data is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2022 not included).
 
 -   Write a brief description of the observations.
 
