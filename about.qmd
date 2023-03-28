@@ -4,10 +4,8 @@ format: html
 editor: visual
 ---
 
-This project was developed by **\[team name\]** For [STA 199: Introduction to Data Science](https://sta199-s23-2.github.io/) at Duke University. The team is comprised of the following team members.
+This project was developed by **heartemoji** For [STA 199: Introduction to Data Science](https://sta199-s23-2.github.io/) at Duke University. The team is comprised of the following team members.
 
--   Team member 1: One sentence description of Team member 1 (e.g., year, major, etc.).
+-   Sarah Wu: I am in the class of 2026 and intending to major in statistics.
 -   Team member 2: One sentence description of Team member 2 (e.g., year, major, etc.).
--   Team member 3: One sentence description of Team member 3 (e.g., year, major, etc.).
--   Team member 4: One sentence description of Team member 4 (e.g., year, major, etc.).
--   ...
+-   Team member 3: One sentence description of Team member 3 (e.g., year, major, etc.)
