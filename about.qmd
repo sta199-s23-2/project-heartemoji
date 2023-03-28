@@ -7,5 +7,5 @@ editor: visual
 This project was developed by **heartemoji** For [STA 199: Introduction to Data Science](https://sta199-s23-2.github.io/) at Duke University. The team is comprised of the following team members.
 
 -   Sarah Wu: I am in the class of 2026 and intending to major in statistics.
--   Team member 2: One sentence description of Team member 2 (e.g., year, major, etc.).
+-   Morgan Feng: I am in the class of 2026 and intending to major in Biology and minor in Statistics.
 -   Team member 3: One sentence description of Team member 3 (e.g., year, major, etc.)
