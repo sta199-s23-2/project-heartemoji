@@ -12,3 +12,13 @@ execute:
 Come March, each college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament. Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. We have all tried as well and have failed all the same.
 
 The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? Our hypothesis is that teams who are able to limit their turnover percentage while remaining high in KENPOM adjusted efficiency and BARTORVIK adjusted efficiency will be able to find success in the tournament. There are many other factors at play in a game of basketball, but these are the ones that we believe will be the most indicative of success.
+
+The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). However, we will not be using the data for the 2023 March Madness tournament, as it is ongoing. Each observation in the dataset represents a team in that year's tournament.
+
+Relevant variables:
+
+Turnover percentage: A player is charged with a turnover if they lose possession of the ball to the opposing team before a shot is attempted.
+
+KENPOM adjusted efficiency: Estimates how many points a team would outscore the average Division I basketball team by over the course of 100 possessions. (Ken Pomeroy)
+
+BARTTORVIK adjusted efficiency: Estimates how many points a team would outscore the average Division I basketball team by over the course of 100 possessions. (Bart Torvik)
