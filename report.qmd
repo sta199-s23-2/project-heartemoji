@@ -1,5 +1,5 @@
 ---
-title: "Project title"
+title: "Predicting Success in March Madness"
 subtitle: "Report"
 format: html
 editor: visual
@@ -7,4 +7,8 @@ execute:
   echo: true
 ---
 
-Add project writeup here.
+**Introduction and Data**
+
+Come March, each college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament. Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. We have all tried as well and have failed all the same.
+
+The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? Our hypothesis is that teams who are able to limit their turnover percentage while remaining high in KENPOM adjusted efficiency and BARTORVIK adjusted efficiency will be able to find success in the tournament. There are many other factors at play in a game of basketball, but these are the ones that we believe will be the most indicative of success.
