@@ -17,7 +17,7 @@ The source of the data is from kaggle.com. However, because a lot of the dataset
 
 Relevant variables:
 
-Turnover percentage: The percentage of a team's possessions that end in a turnover before that team is able to attempt a shot on their own basket. A turnover is defined as a team losing possession to the other team during the course of play or due to an infraction of the rules. (
+Turnover percentage: The percentage of a team's possessions that end in a turnover before that team is able to attempt a shot on their own basket. A turnover is defined as a team losing possession to the other team during the course of play or due to an infraction of the rules. (Ken Pomeroy)
 
 KENPOM adjusted efficiency: Estimates how many points a team would outscore the average Division I basketball team by over the course of 100 possessions. (Ken Pomeroy)
 
