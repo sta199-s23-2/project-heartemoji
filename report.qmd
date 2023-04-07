@@ -45,16 +45,7 @@ march_madness <- read_csv("data/Tournament Team Data (Including 2023).csv")
 #glimpse(march_madness)
 ```
 
-Next, we will clean/filter out the data, removing 2023 values since it has not been updated:
-
-```{r}
-
-# | label: clean-data
-
-march_madness <- march_madness |>
-  filter(YEAR != 2023)
-
-```
+Next, we will clean the data. First, we edited the CSV file directly to rename some variables so that RStudio could easily recognize them (i.e., removing spaces). Second, we manually added the March Madness 2023 results (since previously there were no 2023 results) so that we could also use those values within our analysis. 
 
 Lastly, to set up our data, we will split it for training and testing:
 
