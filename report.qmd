@@ -161,6 +161,8 @@ march_madness |>
 
 ```
 
+One of the better boxplots I was able to make using the variables I examined was b_adj_eff. The median b_adj_eff generally rises as the event progresses through rounds. As the competition progresses, b_adj_eff's variability likewise reduces. The data contains a significant number of outliers, but this is to be expected given the unpredictable and volatile nature of occurrences throughout the NCAA tournament. However, an overall association can be generally observed: b_adj_eff seems to increase as the competition progresses.
+
 ```{r}
 #| label: model-m-log-reg
 
@@ -171,7 +173,7 @@ modelm <- logistic_reg() |>
 tidy(modelm)
 ```
 
-$\widehat{round}$ = 6.09 - 0.208 \* b_adj_eff
+$\widehat{round} = 6.09 - 0.208 * b\_adj\_eff$
 
 ```{r}
 #| label: model-m-AIC
@@ -179,6 +181,8 @@ $\widehat{round}$ = 6.09 - 0.208 \* b_adj_eff
 cat("modelm AIC:", glance(modelm)$AIC)
 
 ```
+
+The calculated AIC is `433.7179`, which is the lowest AIC value of all three models
 
 ```{r}
 #| label: model-m-ROC
@@ -197,6 +201,8 @@ modelm_pred |>
 
 ```
 
+In order to evaluate the model's performance in predicting true positives, we created a ROC curve for b_adj_eff. The curvature suggests that there is a significant area underneath the plot.
+
 ```{r}
 #| label: model-m-AUC
 
@@ -209,7 +215,7 @@ modelm_pred |>
 
 ```
 
-Add narrative...
+This is how the AUC for the b_adj_eff model was determined. One of our most significant scores was an AUC of `0.891`, which is what we obtained here, but it is also the lowest out of the three models given here. This indicates that b_adj_eff is an adequately accurate indicator of whether a team will advance to the March Madness elite eight round.
 
 ModelW (Wu):
 
