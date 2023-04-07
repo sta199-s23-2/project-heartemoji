@@ -9,7 +9,11 @@ execute:
 
 # **Introduction and Data**
 
-Come March, every college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament. Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. We have all tried as well and have failed all the same.
+Come March, every college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament.
+
+In the paper "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket (Downs 2019).
+
+However, even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. We have all tried as well and have failed all the same.
 
 The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining "success" as a team making it into the Elite Eight of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.
 
@@ -358,3 +362,13 @@ Just comparing AUC values, it shows that all three variables are pretty good pre
 Back to our research question of identifying the strongest predictors of success in March Madness, we found that the three variables we investigated (BARTHAG, Barttorvik adjusted efficiency, and Wins above bubble) are all great predictors. If we were to identify just one variable as the strongest predictor of success, we would point to Wins above bubble as the strongest predictor since it has the highest AUC value and the second lowest AIC value (just higher than Barttorvik adjusted efficiency by \~0.3489.
 
 However, since we found that all three variables are strong predictors, further research can be done by creating an additive logistic regression pairing up combinations of the three variables to find if an additive logistic regression can produce an even lower AIC and higher AUC value.
+
+# **Citations**
+
+Downs, Sarah. "Using Statistics to Create the Perfect March Madness Bracket." Journal of Sports Analytics, vol. 5, no. 2, 2019. https://escholarship.org/uc/item/7s99n4nq
+
+https://www.barttorvik.com/#
+
+https://kenpom.com/
+
+https://www.ncaa.com/march-madness-live/scores

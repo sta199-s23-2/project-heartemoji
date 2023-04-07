@@ -3,6 +3,26 @@ title: "sarah"
 editor: visual
 ---
 
+# **Introduction and Data**
+
+Come March, every college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament. Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. We have all tried as well and have failed all the same.
+
+The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining "success" as a team making it into the Elite Eight of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.
+
+The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA.com to fill in the missing data for the 2023 March Madness tournament. The data wrangling is gone into more detail in the following section. Each observation in the dataset represents a team in that year's tournament.
+
+**Data Wrangling- ADD**
+
+**Relevant variables**
+
+Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from https://barttorvik.com/.
+
+BARTHAG: The team's chance of winning against the average DI team
+
+Wins Above Bubble: How many more or less wins the average bubble team would have against the team's schedule
+
+Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a team is offensively and defensively
+
 ```{r}
 
 #| label: load-pkgs
@@ -20,13 +40,9 @@ march_madness <- read_csv("data/Tournament_Data.csv")
 march_madness <- march_madness |>
   filter(round != 0 & round != 68) |>
   mutate(
-    ##round = as.factor(round),
     elite_eight = if_else(round <= 8, "elite eight", "not elite eight"),
     elite_eight = as.factor(elite_eight)
   )
-
-march_madness
-
 ```
 
 ```{r}
