@@ -25,7 +25,7 @@ BARTTORVIK adjusted efficiency: Estimates how many points a team would outscore 
 
 **Methodology**
 
-First, let's load the necessary packages and data:\
+First, let's load the necessary packages:
 
 ```{r}
 
@@ -36,6 +36,8 @@ library(tidymodels)
 
 ```
 
+Next, we will clean and read the data. First, we edited the CSV file directly to rename some variables so that RStudio could easily recognize them (i.e., removing spaces). Second, we manually added the March Madness 2023 results (since previously there were no 2023 results) so that we could also use those values within our analysis:
+
 ```{r}
 
 # | label: read-data
@@ -45,7 +47,7 @@ march_madness <- read_csv("data/Tournament_Data.csv")
 #glimpse(march_madness)
 ```
 
-Next, we will clean the data. First, we edited the CSV file directly to rename some variables so that RStudio could easily recognize them (i.e., removing spaces). Second, we manually added the March Madness 2023 results (since previously there were no 2023 results) so that we could also use those values within our analysis. Finally, we will filter out rounds that equal 0.
+We also will filter out rounds that equal 0:
 
 ```{r}
 
