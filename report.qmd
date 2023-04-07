@@ -118,7 +118,7 @@ cat("modelf AIC:", glance(modelf)$AIC)
 The calculated AIC is 447.3113.
 
 ```{r}
-#| label: model-f-AIC
+#| label: model-f-ROC
 
 modelf_pred <- predict(modelf, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
@@ -182,7 +182,7 @@ cat("modelm AIC:", glance(modelm)$AIC)
 
 ```
 
-The calculated AIC is `433.7179`, which is the lowest AIC value of all three models
+The calculated AIC is `433.7179`, which is the lowest AIC value of all three models.
 
 ```{r}
 #| label: model-m-ROC
