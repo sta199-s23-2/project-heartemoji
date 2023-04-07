@@ -7,7 +7,7 @@ execute:
   echo: true
 ---
 
-**Introduction and Data**
+# **Introduction and Data**
 
 Come March, each college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament. Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. We have all tried as well and have failed all the same.
 
@@ -23,7 +23,9 @@ KENPOM adjusted efficiency: Estimates how many points a team would outscore the 
 
 BARTTORVIK adjusted efficiency: Estimates how many points a team would outscore the average Division I basketball team by over the course of 100 possessions. (Bart Torvik)
 
-**Methodology**
+# **Methodology**
+
+**Data Wrangling**
 
 First, let's load the necessary packages:
 
@@ -54,7 +56,7 @@ We also will filter out rounds that equal 0:
 # | label: clean-data
 
 march_madness <- march_madness |>
-  filter(round != 0 | round != 68) |>
+  filter(round != 0 & round != 68) |>
   mutate(round = as.factor(round))
 
 ```
@@ -71,3 +73,90 @@ train_data <- training(march_madness_split)
 test_data <- testing(march_madness_split) 
 
 ```
+
+**Exploratory Plots and Logistic Regression**
+
+ModelF (Feng):
+
+```{r}
+
+# | label: model-f-boxplot
+
+```
+
+```{r}
+
+# | label: model-f-log-reg
+
+```
+
+Add equation...
+
+```{r}
+
+# | label: model-f-AIC
+
+```
+
+Add narrative...
+
+ModelM (Mansoor):
+
+```{r}
+
+# | label: model-m-boxplot
+
+march_madness |> 
+  ggplot(aes(x = round, y = b_adj_eff)) +
+  geom_boxplot()
+
+```
+
+```{r}
+
+# | label: model-m-log-reg
+
+modelm <- logistic_reg() |>
+  set_engine("glm") |>
+  fit(round ~ b_adj_eff, data = train_data, family = "binomial")
+
+tidy(modelm)
+```
+
+$\widehat{round}$ = 14.39 - 0.41 \* b_adj_eff
+
+```{r}
+
+# | label: model-m-AIC
+
+cat("modelm AIC:", glance(modelm)$AIC)
+
+```
+
+Add narrative...
+
+ModelW (Wu):
+
+```{r}
+
+# | label: model-w-boxplot
+
+```
+
+```{r}
+
+# | label: model-w-log-reg
+
+```
+
+Add equation...
+
+```{r}
+
+# | label: model-w-AIC
+
+```
+
+Add narrative...
+
+# **Results**
