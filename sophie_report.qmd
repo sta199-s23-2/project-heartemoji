@@ -1,4 +1,0 @@
----
-title: "sophie_report.qmd"
-editor: visual
----

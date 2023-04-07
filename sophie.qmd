@@ -1,5 +1,5 @@
 ---
-title: "morgan"
+title: "sophie_report.qmd"
 editor: visual
 ---
 
@@ -13,24 +13,23 @@ library(tidymodels)
 ```
 
 ```{r}
+
 #| label: load-data-1
 
 march_madness <- read_csv("data/Tournament_Data.csv")
 
 march_madness <- march_madness |>
-  filter(round != 0 & round != 68) |>
-  mutate(
-    round = as.factor(round)
-  )
+  filter(round != 0 | round != 68) |>
+  mutate(round = as.factor(round))
 
 names(march_madness)
 
 ```
 
 ```{r}
-march_madness |> 
-  ggplot(aes(x = 3pt_perc, y = seed)) +
-  geom_boxplot()
 
+march_madness |> 
+  ggplot(aes(x = round, y = seed)) +
+  geom_boxplot()
 
 ```

@@ -54,7 +54,8 @@ We also will filter out rounds that equal 0:
 # | label: clean-data
 
 march_madness <- march_madness |>
-  filter(round != 0)
+  filter(round != 0 | round != 68) |>
+  mutate(round = as.factor(round))
 
 ```
 
