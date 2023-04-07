@@ -19,7 +19,7 @@ The source of the data is from kaggle.com. However, because a lot of the dataset
 
 **Relevant variables**
 
-Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from https://barttorvik.com/.
+Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from <https://www.barttorvik.com/#>.
 
 BARTHAG: The team's chance of winning against the average DI team
 
@@ -95,30 +95,28 @@ BARTHAG was the best boxplot that I was able to create from the variables that I
 ```{r}
 #| label: model-f-log-reg
 
-set.seed(101)
-march_madness_split <- initial_split(march_madness, prop = 0.80) 
-train_data <- training(march_madness_split)
-test_data <- testing(march_madness_split) 
-
 modelf <- logistic_reg() |>
   set_engine("glm") |>
   fit(elite_eight ~ BARTHAG, data = train_data, family = "binomial")
 
-logistic_reg() |>
-  set_engine("glm") |>
-  fit(elite_eight ~ BARTHAG, data = train_data, family = "binomial") |>
-  tidy()
-
-cat("model1 AIC:", glance(modelf)$AIC)
-
+tidy(modelf)
 ```
 
-This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The calculated AIC is 447.3113. The equation that models this logistic regression is: $\widehat{round} = 20.92 - 21.32*BARTHAG$.
+This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The equation that models this logistic regression is: $\widehat{round} = 20.92 - 21.32*BARTHAG$.
 
 ```{r}
 #| label: model-f-AIC
 
-modelf_pred <- predict(model1, test_data, type = "prob")|>  
+cat("modelf AIC:", glance(modelf)$AIC)
+
+```
+
+The calculated AIC is 447.3113.
+
+```{r}
+#| label: model-f-AIC
+
+modelf_pred <- predict(modelf, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
 
 modelf_pred |>
@@ -220,6 +218,8 @@ march_madness |>
   geom_boxplot()
 ```
 
+wins_above_bubble was one of the better boxplots I was able to create from the variables that I analyzed. The median wins_above_bubble increases for the most part for each round that the tournaments advances with a few exceptions. As the tournament advance, the variability of wins_above_bubble also decreases. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament. However, a general correlation can be roughly seen: as the tournament advances, wins_above_bubble seems to increase.
+
 ```{r}
 #| label: model-w-log-reg
 
@@ -230,6 +230,8 @@ modelw <- logistic_reg() |>
 tidy(modelw)
 ```
 
+This is the creation of a logistic regression model for using wins_above_bubble to predict whether or not a team will make the elite eight. The equation that models this logistic regression is:
+
 $\widehat{round} = 3.46 - 0.374 * wins\_above\_bubble$
 
 ```{r}
@@ -237,6 +239,8 @@ $\widehat{round} = 3.46 - 0.374 * wins\_above\_bubble$
 
 cat("modelw AIC:", glance(modelw)$AIC)
 ```
+
+The calculated AIC is 434.0668, which is a bit larger than that of b_adj_eff, but lower than that of BARTHAG.
 
 ```{r}
 #| label: model-w-ROC
@@ -254,6 +258,8 @@ modelw_pred |>
   labs(title = "ROC curve for model w")
 ```
 
+In this, we generated an ROC curve for wins_above_bubble to see how good the model was in predicting true positives. From the curve, it seems as if there is significant area underneath the plot, and the curve lies above the y=x line. This means that we have more true positives than false positives, and we are doing a better job than just predicting a team making elite eight by flipping a coin (a 50% chance).
+
 ```{r}
 #| label: model-w-AUC
 
@@ -265,6 +271,6 @@ modelw_pred |>
   ) 
 ```
 
-Add narrative...
+This is the calculation of the AUC for the wins_above_bubble model. We got a value of 0.898 for AUC, which is the highest scores that we got out of the three variables we investigated. This means that wins_above_bubble is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
 # **Results**
