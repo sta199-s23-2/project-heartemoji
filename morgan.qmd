@@ -3,6 +3,7 @@ title: "morgan"
 editor: visual
 ---
 
+
 ```{r}
 
 #| label: load-pkgs
@@ -29,8 +30,9 @@ names(march_madness)
 
 ```{r}
 march_madness |> 
-  ggplot(aes(x = 3pt_perc, y = seed)) +
+  ggplot(aes(x = round, y = three_pt_perc)) +
   geom_boxplot()
 
 
 ```
+
