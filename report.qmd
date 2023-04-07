@@ -72,8 +72,6 @@ Then we loaded in the necessary packages:
 library(tidyverse)
 library(tidymodels)
 
-names(march_madness)
-
 ```
 
 ```{r}
@@ -81,7 +79,7 @@ names(march_madness)
 
 march_madness <- read_csv("data/Tournament_Data.csv")
 
-#glimpse(march_madness)
+glimpse(march_madness)
 ```
 
 We also will filter out rounds that equal 0 or 68 and create a column called "elite_eight":

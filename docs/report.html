@@ -198,7 +198,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Come March, every college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament. Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day’s slate of games. We have all tried as well and have failed all the same.</p>
 <p>The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining “success” as a team making it into the Elite Eight of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.</p>
 <p>The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <a href="https://kenpom.com/" class="uri">https://kenpom.com/</a> and <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA.com to fill in the missing data for the 2023 March Madness tournament. The data wrangling is gone into more detail in the following section. Each observation in the dataset represents a team in that year’s tournament.</p>
-<p><strong>Data Wrangling- ADD</strong></p>
 <p><strong>Relevant variables</strong></p>
 <p>Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. We used boxplots as they are pretty clear and effective to show the different numeric distributions for multiple categorical variables. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>.</p>
 <p>BARTHAG: The team’s chance of winning against the average DI team</p>
@@ -208,7 +207,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="methodology" class="level1">
 <h1><strong>Methodology</strong></h1>
 <p><strong>Data Wrangling</strong></p>
-<p>First, let’s load the necessary packages:</p>
+<p>The first step to our project was wrangling the data to be usable for R. The initial dataset downloaded from the internet had the following as variable names:</p>
+<p><img src="Images/Names%20Before%20Edits.png" class="img-fluid"></p>
+<p>There were three issues that we had to change with these names:</p>
+<ol type="1">
+<li>The names had spaces in them.</li>
+<li>The names had numbers in them.</li>
+<li>The names had symbols in them.</li>
+<li>The initial data set had 2 columns for “team” so there ended up being a team…3 and team…41 variable.</li>
+</ol>
+<p>We made the edits directly in the csv file to rename the columns as well as to delete the second team column. The resulting names are as follows:</p>
+<p><img src="Images/Names%20After%20Edits.png" class="img-fluid"></p>
+<p>There were many changes that were made to the data set:</p>
+<ol type="1">
+<li>The team column in column 41 was deleted.</li>
+<li>All spaces were replaced with an underscore so R would be able to recognize the variable names.</li>
+<li>Many variables were abbreviated so:
+<ol type="1">
+<li><p>BARTTORVIK -&gt; b</p></li>
+<li><p>KENPOM -&gt; k</p></li>
+<li><p>% -&gt; perc</p></li>
+<li><p>offense -&gt; off</p></li>
+<li><p>defense -&gt; def</p></li>
+<li><p>efficiency -&gt; eff</p></li>
+<li><p>adjusted -&gt; adj</p></li>
+</ol></li>
+<li>The initial data set did not include the results for the 2023 tournament so that was manually added.</li>
+</ol>
+<p>Then we loaded in the necessary packages:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -240,7 +266,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 • Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 </div>
-<p>Next, we will clean and read the data. First, we edited the CSV file directly to rename some variables so that RStudio could easily recognize them (i.e., removing spaces). Second, we manually added the March Madness 2023 results (since previously there were no 2023 results) so that we could also use those values within our analysis:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/Tournament_Data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -253,44 +278,88 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#glimpse(march_madness)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(march_madness)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,011
+Columns: 40
+$ year                  &lt;dbl&gt; 2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023, …
+$ seed                  &lt;dbl&gt; 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, …
+$ team                  &lt;chr&gt; "Alabama", "Houston", "Kansas", "Purdue", "Arizo…
+$ round                 &lt;dbl&gt; 16, 16, 32, 64, 64, 32, 8, 16, 32, 8, 8, 16, 1, …
+$ k_adj_eff             &lt;dbl&gt; 26.9363, 29.8743, 23.1345, 24.7732, 22.8757, 21.…
+$ k_adj_off             &lt;dbl&gt; 115.832, 118.854, 114.703, 119.951, 120.078, 119…
+$ k_adj_def             &lt;dbl&gt; 88.8960, 88.9798, 91.5684, 95.1774, 97.2023, 97.…
+$ k_adj_tempo           &lt;dbl&gt; 72.7700, 63.3827, 69.2256, 64.2174, 72.2672, 68.…
+$ b_adj_eff             &lt;dbl&gt; 27.588, 28.290, 21.359, 25.247, 23.914, 21.894, …
+$ b_adj_off             &lt;dbl&gt; 116.981, 118.260, 113.750, 119.495, 120.450, 119…
+$ b_adj_def             &lt;dbl&gt; 89.393, 89.970, 92.391, 94.248, 96.536, 97.159, …
+$ BARTHAG               &lt;dbl&gt; 0.957, 0.959, 0.916, 0.939, 0.927, 0.912, 0.931,…
+$ elite_sos             &lt;dbl&gt; 33.867, 23.551, 38.469, 29.575, 28.591, 28.741, …
+$ b_adj_tempo           &lt;dbl&gt; 72.704, 63.262, 69.116, 64.077, 72.427, 68.627, …
+$ two_pt_perc           &lt;dbl&gt; 54.6, 53.2, 52.9, 54.1, 56.6, 58.8, 53.8, 50.4, …
+$ three_pt_perc         &lt;dbl&gt; 33.8, 34.5, 34.4, 32.6, 38.2, 34.8, 33.9, 34.7, …
+$ ft_perc               &lt;dbl&gt; 72.6, 71.9, 71.7, 74.3, 70.9, 72.1, 75.2, 72.2, …
+$ efg_perc              &lt;dbl&gt; 52.7, 52.7, 52.4, 52.2, 56.8, 56.0, 52.7, 50.9, …
+$ ft_rate               &lt;dbl&gt; 36.7, 28.5, 29.8, 37.2, 36.5, 27.1, 31.5, 27.1, …
+$ three_pt_rate         &lt;dbl&gt; 47.8, 37.8, 34.1, 38.1, 38.0, 41.9, 35.0, 29.1, …
+$ assist_perc           &lt;dbl&gt; 54.8, 53.8, 59.5, 60.9, 65.3, 59.3, 57.1, 50.9, …
+$ off_reb_perc          &lt;dbl&gt; 33.8, 37.1, 28.4, 38.3, 31.1, 26.5, 28.3, 33.7, …
+$ def_reb_perc          &lt;dbl&gt; 72.4, 72.6, 71.7, 76.7, 73.8, 67.9, 70.6, 72.4, …
+$ block_perc            &lt;dbl&gt; 11.3, 16.4, 10.0, 9.7, 8.3, 8.7, 10.1, 11.9, 6.8…
+$ turnover_perc         &lt;dbl&gt; 19.0, 15.3, 17.5, 17.0, 18.4, 15.2, 16.5, 15.3, …
+$ two_pt_perc_def       &lt;dbl&gt; 41.2, 43.1, 47.2, 47.4, 45.9, 50.0, 47.2, 46.8, …
+$ three_pt_perc_def     &lt;dbl&gt; 28.1, 27.8, 31.2, 31.4, 32.8, 35.2, 32.7, 31.1, …
+$ ft_perc_def           &lt;dbl&gt; 71.4, 69.0, 72.3, 73.6, 71.4, 69.8, 72.4, 69.7, …
+$ efg_perc_defense      &lt;dbl&gt; 41.5, 42.5, 47.1, 47.2, 47.2, 51.1, 47.8, 46.8, …
+$ ft_rate_def           &lt;dbl&gt; 32.8, 35.8, 31.2, 19.3, 26.0, 29.0, 34.5, 27.6, …
+$ three_pt_rate_def     &lt;dbl&gt; 30.6, 43.7, 35.1, 35.4, 38.7, 37.5, 35.4, 39.3, …
+$ op_assist_perc        &lt;dbl&gt; 41.8, 53.6, 46.2, 51.5, 49.4, 58.6, 48.3, 51.3, …
+$ op_off_reb_perc       &lt;dbl&gt; 27.6, 27.4, 28.3, 23.3, 26.2, 32.1, 29.4, 27.6, …
+$ op_def_reb_perc       &lt;dbl&gt; 66.2, 62.9, 71.6, 61.7, 68.9, 73.5, 71.7, 66.3, …
+$ blocked_perc          &lt;dbl&gt; 11.4, 6.6, 7.3, 8.6, 9.3, 9.6, 8.3, 6.3, 9.3, 5.…
+$ turnover_perc_def     &lt;dbl&gt; 16.0, 22.0, 20.2, 15.4, 16.9, 22.8, 22.8, 23.6, …
+$ wins_above_bubble     &lt;dbl&gt; 10.6, 8.4, 10.5, 9.2, 7.5, 7.5, 8.0, 8.4, 5.7, 7…
+$ win_perc              &lt;dbl&gt; 85.29412, 91.17647, 79.41176, 85.29412, 82.35294…
+$ pointers_per_poss_off &lt;dbl&gt; 1.106, 1.158, 1.062, 1.135, 1.134, 1.132, 1.095,…
+$ points_per_poss_def   &lt;dbl&gt; 0.922, 0.872, 0.963, 0.974, 0.981, 1.000, 0.948,…</code></pre>
+</div>
 </div>
 <p>We also will filter out rounds that equal 0 or 68 and create a column called “elite_eight”:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="ot">&lt;-</span> march_madness <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">!=</span> <span class="dv">0</span> <span class="sc">&amp;</span> round <span class="sc">!=</span> <span class="dv">68</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">elite_eight =</span> <span class="fu">if_else</span>(round <span class="sc">&lt;=</span> <span class="dv">8</span>, <span class="st">"elite eight"</span>, <span class="st">"not elite eight"</span>),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">elite_eight =</span> <span class="fu">as.factor</span>(elite_eight)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="ot">&lt;-</span> march_madness <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">!=</span> <span class="dv">0</span> <span class="sc">&amp;</span> round <span class="sc">!=</span> <span class="dv">68</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">elite_eight =</span> <span class="fu">if_else</span>(round <span class="sc">&lt;=</span> <span class="dv">8</span>, <span class="st">"elite eight"</span>, <span class="st">"not elite eight"</span>),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">elite_eight =</span> <span class="fu">as.factor</span>(elite_eight)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Lastly, to set up our data, we will split it for training and testing. Training and testing data is important to avoid overfitting:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>) </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>march_madness_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(march_madness, <span class="at">prop =</span> <span class="fl">0.80</span>) </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(march_madness_split)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">testing</span>(march_madness_split) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>) </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>march_madness_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(march_madness, <span class="at">prop =</span> <span class="fl">0.80</span>) </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(march_madness_split)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">testing</span>(march_madness_split) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exploratory Plots and Logistic Regression</strong></p>
 <p>We decided to use logistic regression for our project because we are trying to predict success (making it to the Elite Eight), and our response variable is a categorical variable (round).</p>
 <p>We further calculate AIC, make a ROC plot, and calculate AUC under the ROC plot to help us find the best-fit model of the three variables we investigated and identify which variable is the best predictor of success in the tournament.</p>
 <p>ModelF (Feng):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">round =</span> <span class="fu">as.factor</span>(round)) <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> round, <span class="at">y =</span> BARTHAG)) <span class="sc">+</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">round =</span> <span class="fu">as.factor</span>(round)) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> round, <span class="at">y =</span> BARTHAG)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/model-f-boxplot-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>BARTHAG was the best boxplot that I was able to create from the variables that I analyzed. The median score of BARTHAG increases for the most part for each round that the tournaments advances. The lower quartile especially narrows down and becomes more specific. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>modelf <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(elite_eight <span class="sc">~</span> BARTHAG, <span class="at">data =</span> train_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(modelf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>modelf <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(elite_eight <span class="sc">~</span> BARTHAG, <span class="at">data =</span> train_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(modelf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   term        estimate std.error statistic  p.value
@@ -301,36 +370,36 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 </div>
 <p>This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The equation that models this logistic regression is: <span class="math inline">\(\widehat{round} = 20.92 - 21.32*BARTHAG\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"modelf AIC:"</span>, <span class="fu">glance</span>(modelf)<span class="sc">$</span>AIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"modelf AIC:"</span>, <span class="fu">glance</span>(modelf)<span class="sc">$</span>AIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>modelf AIC: 447.3113</code></pre>
 </div>
 </div>
 <p>The calculated AIC is 447.3113.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>modelf_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelf, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)<span class="sc">|&gt;</span>  </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(test_data <span class="sc">|&gt;</span> <span class="fu">select</span>(elite_eight))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>modelf_pred <span class="sc">|&gt;</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>,</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ROC curve for model f"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>modelf_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelf, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)<span class="sc">|&gt;</span>  </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(test_data <span class="sc">|&gt;</span> <span class="fu">select</span>(elite_eight))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>modelf_pred <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ROC curve for model f"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/model-f-ROC-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>In this, we generated an ROC curve for BARTHAG to see how good the model was in predicting true positives. From the curve, it seems as if there is significant area underneath the plot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>modelf_pred <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>, </span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span> </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>modelf_pred <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>, </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
@@ -341,21 +410,21 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 <p>This is the calculation of the AUC for the BARTHAG model. We got a value of 0.894 for AUC, which is one of the highest scores that we got. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.</p>
 <p>ModelM (Mansoor):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="sc">|&gt;</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">round =</span> <span class="fu">as.factor</span>(round)) <span class="sc">|&gt;</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> round, <span class="at">y =</span> b_adj_eff)) <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">round =</span> <span class="fu">as.factor</span>(round)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> round, <span class="at">y =</span> b_adj_eff)) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/model-m-boxplot-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>One of the better boxplots I was able to make using the variables I examined was b_adj_eff. The median b_adj_eff generally rises as the event progresses through rounds. As the competition progresses, b_adj_eff’s variability likewise reduces. The data contains a significant number of outliers, but this is to be expected given the unpredictable and volatile nature of occurrences throughout the NCAA tournament. However, an overall association can be generally observed: b_adj_eff seems to increase as the competition progresses.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>modelm <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(elite_eight <span class="sc">~</span> b_adj_eff, <span class="at">data =</span> train_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(modelm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>modelm <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(elite_eight <span class="sc">~</span> b_adj_eff, <span class="at">data =</span> train_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(modelm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   term        estimate std.error statistic  p.value
@@ -366,36 +435,36 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 </div>
 <p><span class="math inline">\(\widehat{round} = 6.09 - 0.208 * b\_adj\_eff\)</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"modelm AIC:"</span>, <span class="fu">glance</span>(modelm)<span class="sc">$</span>AIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"modelm AIC:"</span>, <span class="fu">glance</span>(modelm)<span class="sc">$</span>AIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>modelm AIC: 433.7179</code></pre>
 </div>
 </div>
 <p>The calculated AIC is <code>433.7179</code>, which is the lowest AIC value of all three models.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>modelm_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelm, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)<span class="sc">|&gt;</span>  </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(test_data <span class="sc">|&gt;</span> <span class="fu">select</span>(elite_eight))</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>modelm_pred <span class="sc">|&gt;</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ROC curve for model m"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>modelm_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelm, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)<span class="sc">|&gt;</span>  </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(test_data <span class="sc">|&gt;</span> <span class="fu">select</span>(elite_eight))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>modelm_pred <span class="sc">|&gt;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ROC curve for model m"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/model-m-ROC-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>In order to evaluate the model’s performance in predicting true positives, we created a ROC curve for b_adj_eff. The curvature suggests that there is a significant area underneath the plot.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>modelm_pred <span class="sc">|&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>, </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span> </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>modelm_pred <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>, </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span> </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
@@ -406,21 +475,21 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 <p>This is how the AUC for the b_adj_eff model was determined. One of our most significant scores was an AUC of <code>0.891</code>, which is what we obtained here, but it is also the lowest out of the three models given here. This indicates that b_adj_eff is an adequately accurate indicator of whether a team will advance to the March Madness elite eight round.</p>
 <p>ModelW (Wu):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="sc">|&gt;</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">round =</span> <span class="fu">as.factor</span>(round)) <span class="sc">|&gt;</span> </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> round, <span class="at">y =</span> wins_above_bubble)) <span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>march_madness <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">round =</span> <span class="fu">as.factor</span>(round)) <span class="sc">|&gt;</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> round, <span class="at">y =</span> wins_above_bubble)) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/model-w-boxplot-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>wins_above_bubble was one of the better boxplots I was able to create from the variables that I analyzed. The median wins_above_bubble increases for the most part for each round that the tournaments advances with a few exceptions. As the tournament advance, the variability of wins_above_bubble also decreases. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament. However, a general correlation can be roughly seen: as the tournament advances, wins_above_bubble seems to increase.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>modelw <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(elite_eight <span class="sc">~</span> wins_above_bubble, <span class="at">data =</span> train_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(modelw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>modelw <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(elite_eight <span class="sc">~</span> wins_above_bubble, <span class="at">data =</span> train_data, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(modelw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   term              estimate std.error statistic  p.value
@@ -432,36 +501,36 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 <p>This is the creation of a logistic regression model for using wins_above_bubble to predict whether or not a team will make the elite eight. The equation that models this logistic regression is:</p>
 <p><span class="math inline">\(\widehat{round} = 3.46 - 0.374 * wins\_above\_bubble\)</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"modelw AIC:"</span>, <span class="fu">glance</span>(modelw)<span class="sc">$</span>AIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"modelw AIC:"</span>, <span class="fu">glance</span>(modelw)<span class="sc">$</span>AIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>modelw AIC: 434.0668</code></pre>
 </div>
 </div>
 <p>The calculated AIC is 434.0668, which is a bit larger than that of b_adj_eff, but lower than that of BARTHAG.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>modelw_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelw, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)<span class="sc">|&gt;</span>  </span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(test_data <span class="sc">|&gt;</span> <span class="fu">select</span>(elite_eight))</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>modelw_pred <span class="sc">|&gt;</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>,</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ROC curve for model w"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>modelw_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelw, test_data, <span class="at">type =</span> <span class="st">"prob"</span>)<span class="sc">|&gt;</span>  </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(test_data <span class="sc">|&gt;</span> <span class="fu">select</span>(elite_eight))</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>modelw_pred <span class="sc">|&gt;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ROC curve for model w"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="report_files/figure-html/model-w-ROC-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>In this, we generated an ROC curve for wins_above_bubble to see how good the model was in predicting true positives. From the curve, it seems as if there is significant area underneath the plot, and the curve lies above the y=x line. This means that we have more true positives than false positives, and we are doing a better job than just predicting a team making elite eight by flipping a coin (a 50% chance).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>modelw_pred <span class="sc">|&gt;</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>, </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span> </span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>modelw_pred <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_auc</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth =</span> elite_eight,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">.pred_elite eight</span><span class="st">`</span>, </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">event_level =</span> <span class="st">"first"</span> </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric .estimator .estimate
