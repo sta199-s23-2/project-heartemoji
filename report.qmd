@@ -84,23 +84,69 @@ ModelF (Feng):
 
 # | label: model-f-boxplot
 
+march_madness |> 
+  mutate(round = as.factor(round)) |>
+  ggplot(aes(x = round, y = BARTHAG)) +
+  geom_boxplot()
+
 ```
+
+BARTHAG was the best boxplot that I was able to create from the variables that I analyzed. The median score of BARTHAG increases for the most part for each round that the tournaments advances. The lower quartile especially narrows down and becomes more specific. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament.
 
 ```{r}
 
 # | label: model-f-log-reg
 
+set.seed(101)
+march_madness_split <- initial_split(march_madness, prop = 0.80) 
+train_data <- training(march_madness_split)
+test_data <- testing(march_madness_split) 
+
+modelf <- logistic_reg() |>
+  set_engine("glm") |>
+  fit(elite_eight ~ BARTHAG, data = train_data, family = "binomial")
+
+logistic_reg() |>
+  set_engine("glm") |>
+  fit(elite_eight ~ BARTHAG, data = train_data, family = "binomial") |>
+  tidy()
+
+cat("model1 AIC:", glance(modelf)$AIC)
+
 ```
 
-Add equation...
+This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The calculated AIC is 447.3113. The equation that models this logistic regression is: $\widehat{round} = 20.92 - 21.32*BARTHAG$.
 
 ```{r}
 
 # | label: model-f-AIC
 
-```
+modelf_pred <- predict(model1, test_data, type = "prob")|>  
+  bind_cols(test_data |> select(elite_eight))
 
-Add narrative...
+modelf_pred |>
+  roc_curve(
+    truth = elite_eight,
+    `.pred_elite eight`,
+    event_level = "first"
+  ) |>
+  autoplot() +
+  labs(title = "ROC curve for model f")
+```
+In this, we generated an ROC curve for BARTHAG to see how good the model was in predicting true positives. From the curve, it seems as if there is significant area underneath the plot.
+
+```{r}
+#| label: modelf AUC
+
+modelf_pred |>
+  roc_auc(
+    truth = elite_eight,
+    `.pred_elite eight`, 
+    event_level = "first" 
+  ) 
+
+```
+This is the calculation of the AUC for the BARTHAG model. We got a value of 89.36 for AUC, which is one of the highest scores that we got. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
 ModelM (Mansoor):
 
