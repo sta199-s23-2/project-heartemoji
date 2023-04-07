@@ -143,7 +143,7 @@ modelf_pred |>
 
 ```
 
-This is the calculation of the AUC for the BARTHAG model. We got a value of 89.36 for AUC, which is one of the highest scores that we got. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
+This is the calculation of the AUC for the BARTHAG model. We got a value of 0.894 for AUC, which is one of the highest scores that we got. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
 ModelM (Mansoor):
 
