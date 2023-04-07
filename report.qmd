@@ -22,3 +22,49 @@ Turnover percentage: The percentage of a team's possessions that end in a turnov
 KENPOM adjusted efficiency: Estimates how many points a team would outscore the average Division I basketball team by over the course of 100 possessions. (Ken Pomeroy)
 
 BARTTORVIK adjusted efficiency: Estimates how many points a team would outscore the average Division I basketball team by over the course of 100 possessions. (Bart Torvik)
+
+**Methodology**
+
+First, let's load the necessary packages and data:\
+
+```{r}
+
+# | label: load-packages
+
+library(tidyverse)
+library(tidymodels)
+
+```
+
+```{r}
+
+# | label: read-data
+
+march_madness <- read_csv("data/Tournament Team Data (Including 2023).csv")
+
+#glimpse(march_madness)
+```
+
+Next, we will clean/filter out the data, removing 2023 values since it has not been updated:
+
+```{r}
+
+# | label: clean-data
+
+march_madness <- march_madness |>
+  filter(YEAR != 2023)
+
+```
+
+Lastly, to set up our data, we will split it for training and testing:
+
+```{r}
+
+# | label: train-test
+
+set.seed(1234) 
+march_madness_split <- initial_split(march_madness, prop = 0.80) 
+train_data <- training(march_madness_split)
+test_data <- testing(march_madness_split) 
+
+```
