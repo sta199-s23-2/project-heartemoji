@@ -121,7 +121,11 @@ ModelF (Feng):
 march_madness |> 
   mutate(round = as.factor(round)) |>
   ggplot(aes(x = round, y = BARTHAG)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(title = "Relationship between Round and BARTHAG",
+         x = "Round",
+         y = "BARTHAG") +
+  theme_minimal()
 
 ```
 
@@ -167,7 +171,7 @@ modelf_pred |>
 In this, we generated an ROC curve for BARTHAG to see how good the model was in predicting true positives. From the curve, it seems as if there is significant area underneath the plot.
 
 ```{r}
-#| label: modelf AUC
+#| label: model-f-AUC
 
 modelf_pred |>
   roc_auc(
@@ -188,7 +192,11 @@ ModelM (Mansoor):
 march_madness |> 
   mutate(round = as.factor(round)) |> 
   ggplot(aes(x = round, y = b_adj_eff)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(title = "Relationship between Round and Barttorvik Adjusted Efficiency",
+         x = "Round",
+         y = "Barttorvik Adjusted Efficiency") +
+  theme_minimal()
 
 ```
 
@@ -256,7 +264,12 @@ ModelW (Wu):
 march_madness |> 
   mutate(round = as.factor(round)) |> 
   ggplot(aes(x = round, y = wins_above_bubble)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(title = "Relationship between Round and Wins Above Bubble",
+         x = "Round",
+         y = "Wins Above Bubble") +
+  theme_minimal()
+
 ```
 
 wins_above_bubble was one of the better boxplots I was able to create from the variables that I analyzed. The median wins_above_bubble increases for the most part for each round that the tournaments advances with a few exceptions. As the tournament advance, the variability of wins_above_bubble also decreases. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament. However, a general correlation can be roughly seen: as the tournament advances, wins_above_bubble seems to increase.
