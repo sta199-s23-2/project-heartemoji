@@ -19,7 +19,7 @@ The source of the data is from kaggle.com. However, because a lot of the dataset
 
 **Relevant variables**
 
-Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from <https://www.barttorvik.com/#>.
+Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. We used boxplots as they are pretty clear and effective to show the different numeric distributions for multiple categorical variables. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from <https://www.barttorvik.com/#>.
 
 BARTHAG: The team's chance of winning against the average DI team
 
@@ -64,7 +64,7 @@ march_madness <- march_madness |>
   )
 ```
 
-Lastly, to set up our data, we will split it for training and testing:
+Lastly, to set up our data, we will split it for training and testing. Training and testing data is important to avoid overfitting:
 
 ```{r}
 #| label: train-test
@@ -77,6 +77,10 @@ test_data <- testing(march_madness_split)
 ```
 
 **Exploratory Plots and Logistic Regression**
+
+We decided to use logistic regression for our project because we are trying to predict success (making it to the Elite Eight), and our response variable is a categorical variable (round).
+
+We further calculate AIC, make an ROC plot, and calculate AUC under the ROC plot to help us find the best-fit model of the three variables we investigated and identify which variable is the best predictor of success in the tournament.
 
 ModelF (Feng):
 
@@ -274,3 +278,5 @@ modelw_pred |>
 This is the calculation of the AUC for the wins_above_bubble model. We got a value of 0.898 for AUC, which is the highest scores that we got out of the three variables we investigated. This means that wins_above_bubble is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
 # **Results**
+
+Our research question was: What factors are the strongest predictors of success in March Madness? In our project, we defined "success" as a team making it into the Elite Eight of the tournament. Our original hypothesis was that teams with a high BARTHAG value would be most likely to find success in the tournament.
