@@ -65,3 +65,13 @@ model1_pred |>
   labs(title = "ROC curve for model 1")
 ```
 
+```{r}
+
+model1_pred |>
+  roc_auc(
+    truth = final_four,
+    `.pred_final four`, 
+    event_level = "first" 
+  ) 
+```
+
