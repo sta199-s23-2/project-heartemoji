@@ -170,23 +170,57 @@ Add narrative...
 ModelW (Wu):
 
 ```{r}
-
 # | label: model-w-boxplot
 
+march_madness |> 
+  mutate(round = as.factor(round)) |> 
+  ggplot(aes(x = round, y = wins_above_bubble)) +
+  geom_boxplot()
 ```
 
 ```{r}
-
 # | label: model-w-log-reg
 
+modelw <- logistic_reg() |>
+  set_engine("glm") |>
+  fit(elite_eight ~ wins_above_bubble, data = train_data, family = "binomial")
+
+tidy(modelw)
 ```
 
-Add equation...
+$\widehat{round} = 3.46 - 0.374 * wins\_above\_bubble$
 
 ```{r}
-
 # | label: model-w-AIC
 
+cat("modelw AIC:", glance(modelw)$AIC)
+```
+
+```{r}
+#| label: model-w-ROC
+
+modelw_pred <- predict(modelw, test_data, type = "prob")|>  
+  bind_cols(test_data |> select(elite_eight))
+
+modelw_pred |>
+  roc_curve(
+    truth = elite_eight,
+    `.pred_elite eight`,
+    event_level = "first"
+  ) |>
+  autoplot() +
+  labs(title = "ROC curve for model w")
+```
+
+```{r}
+#| label: model-w-AUC
+
+modelw_pred |>
+  roc_auc(
+    truth = elite_eight,
+    `.pred_elite eight`, 
+    event_level = "first" 
+  ) 
 ```
 
 Add narrative...
