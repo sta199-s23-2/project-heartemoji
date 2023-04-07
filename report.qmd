@@ -34,8 +34,7 @@ Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a tea
 First, let's load the necessary packages:
 
 ```{r}
-
-# | label: load-packages
+#| label: load-packages
 
 library(tidyverse)
 library(tidymodels)
@@ -45,19 +44,17 @@ library(tidymodels)
 Next, we will clean and read the data. First, we edited the CSV file directly to rename some variables so that RStudio could easily recognize them (i.e., removing spaces). Second, we manually added the March Madness 2023 results (since previously there were no 2023 results) so that we could also use those values within our analysis:
 
 ```{r}
-
-# | label: read-data
+#| label: read-data
 
 march_madness <- read_csv("data/Tournament_Data.csv")
 
 #glimpse(march_madness)
 ```
 
-We also will filter out rounds that equal 0:
+We also will filter out rounds that equal 0 or 68 and create a column called "elite_eight":
 
 ```{r}
-
-# | label: clean-data
+#| label: clean-data
 
 march_madness <- march_madness |>
   filter(round != 0 & round != 68) |>
@@ -70,8 +67,7 @@ march_madness <- march_madness |>
 Lastly, to set up our data, we will split it for training and testing:
 
 ```{r}
-
-# | label: train-test
+#| label: train-test
 
 set.seed(101) 
 march_madness_split <- initial_split(march_madness, prop = 0.80) 
@@ -85,8 +81,7 @@ test_data <- testing(march_madness_split)
 ModelF (Feng):
 
 ```{r}
-
-# | label: model-f-boxplot
+#| label: model-f-boxplot
 
 march_madness |> 
   mutate(round = as.factor(round)) |>
@@ -98,8 +93,7 @@ march_madness |>
 BARTHAG was the best boxplot that I was able to create from the variables that I analyzed. The median score of BARTHAG increases for the most part for each round that the tournaments advances. The lower quartile especially narrows down and becomes more specific. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament.
 
 ```{r}
-
-# | label: model-f-log-reg
+#| label: model-f-log-reg
 
 set.seed(101)
 march_madness_split <- initial_split(march_madness, prop = 0.80) 
@@ -122,8 +116,7 @@ cat("model1 AIC:", glance(modelf)$AIC)
 This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The calculated AIC is 447.3113. The equation that models this logistic regression is: $\widehat{round} = 20.92 - 21.32*BARTHAG$.
 
 ```{r}
-
-# | label: model-f-AIC
+#| label: model-f-AIC
 
 modelf_pred <- predict(model1, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
@@ -157,8 +150,7 @@ This is the calculation of the AUC for the BARTHAG model. We got a value of 89.3
 ModelM (Mansoor):
 
 ```{r}
-
-# | label: model-m-boxplot
+#| label: model-m-boxplot
 
 march_madness |> 
   mutate(round = as.factor(round)) |> 
@@ -168,8 +160,7 @@ march_madness |>
 ```
 
 ```{r}
-
-# | label: model-m-log-reg
+#| label: model-m-log-reg
 
 modelm <- logistic_reg() |>
   set_engine("glm") |>
@@ -181,16 +172,14 @@ tidy(modelm)
 $\widehat{round}$ = 6.09 - 0.208 \* b_adj_eff
 
 ```{r}
-
-# | label: model-m-AIC
+#| label: model-m-AIC
 
 cat("modelm AIC:", glance(modelm)$AIC)
 
 ```
 
 ```{r}
-
-# | label: model-m-ROC
+#| label: model-m-ROC
 
 modelm_pred <- predict(modelm, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
@@ -207,6 +196,7 @@ modelm_pred |>
 ```
 
 ```{r}
+#| label: model-m-AUC
 
 modelm_pred |>
   roc_auc(
@@ -222,7 +212,7 @@ Add narrative...
 ModelW (Wu):
 
 ```{r}
-# | label: model-w-boxplot
+#| label: model-w-boxplot
 
 march_madness |> 
   mutate(round = as.factor(round)) |> 
@@ -231,7 +221,7 @@ march_madness |>
 ```
 
 ```{r}
-# | label: model-w-log-reg
+#| label: model-w-log-reg
 
 modelw <- logistic_reg() |>
   set_engine("glm") |>
@@ -243,7 +233,7 @@ tidy(modelw)
 $\widehat{round} = 3.46 - 0.374 * wins\_above\_bubble$
 
 ```{r}
-# | label: model-w-AIC
+#| label: model-w-AIC
 
 cat("modelw AIC:", glance(modelw)$AIC)
 ```
