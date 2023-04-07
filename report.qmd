@@ -9,19 +9,23 @@ execute:
 
 # **Introduction and Data**
 
-Come March, each college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament. Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. We have all tried as well and have failed all the same.
+Come March, every college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament. Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. We have all tried as well and have failed all the same.
 
-The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? Our hypothesis is that teams who are able to limit their turnover percentage while remaining high in KENPOM adjusted efficiency and BARTORVIK adjusted efficiency will be able to find success in the tournament. There are many other factors at play in a game of basketball, but these are the ones that we believe will be the most indicative of success.
+The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining "success" as a team making it into the Elite Eight of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.
 
-The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). However, we will not be using the data for the 2023 March Madness tournament, as it is ongoing. Each observation in the dataset represents a team in that year's tournament.
+The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA.com to fill in the missing data for the 2023 March Madness tournament. The data wrangling is gone into more detail in the following section. Each observation in the dataset represents a team in that year's tournament.
+
+**Data Wrangling- ADD**
 
 **Relevant variables**
 
-Turnover percentage: The percentage of a team's possessions that end in a turnover before that team is able to attempt a shot on their own basket. A turnover is defined as a team losing possession to the other team during the course of play or due to an infraction of the rules. (Ken Pomeroy)
+Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from https://barttorvik.com/.
 
-KENPOM adjusted efficiency: Estimates how many points a team would outscore the average Division I basketball team by over the course of 100 possessions. (Ken Pomeroy)
+BARTHAG: The team's chance of winning against the average DI team
 
-BARTTORVIK adjusted efficiency: Estimates how many points a team would outscore the average Division I basketball team by over the course of 100 possessions. (Bart Torvik)
+Wins Above Bubble: How many more or less wins the average bubble team would have against the team's schedule
+
+Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a team is offensively and defensively
 
 # **Methodology**
 
@@ -133,6 +137,7 @@ modelf_pred |>
   autoplot() +
   labs(title = "ROC curve for model f")
 ```
+
 In this, we generated an ROC curve for BARTHAG to see how good the model was in predicting true positives. From the curve, it seems as if there is significant area underneath the plot.
 
 ```{r}
@@ -146,6 +151,7 @@ modelf_pred |>
   ) 
 
 ```
+
 This is the calculation of the AUC for the BARTHAG model. We got a value of 89.36 for AUC, which is one of the highest scores that we got. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
 ModelM (Mansoor):
