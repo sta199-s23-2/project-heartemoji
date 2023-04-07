@@ -19,7 +19,7 @@ library(tidyverse)
 
 -   Identify the source of the data.
 
-The dataset was found on Kaggle.com: https://www.kaggle.com/datasets/nishaanamin/march-madness-data
+The dataset was found on Kaggle.com: https://www.kaggle.com/datasets/nishaanamin/march-madness-data.
 
 -   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
 
