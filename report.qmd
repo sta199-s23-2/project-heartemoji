@@ -293,15 +293,11 @@ We performed a logistic regression on each variable, with the categorical respon
 
 AIC, which stands for Akaike information criterion, which is used to compare the fit of models relative to other models. The lower the AIC value the better the model. Below are the three AIC values for the different variables:
 
-```{r}
-#| label: AIC-values
+BARTHAG (modelf): 447.3113
 
-cat("modelf AIC:", glance(modelf)$AIC)
+Barttorvik adjusted efficiency (modelm): 433.7179
 
-cat("modelm AIC:", glance(modelm)$AIC)
-
-cat("modelw AIC:", glance(modelw)$AIC)
-```
+Wins above bubble (modelw): 434.0668
 
 Just comparing AIC values, modelm (Barttorvik adjusted efficiency) had the lowest value, while modelw (Wins above Bubble) has just a very slightly higher AIC. Modelf (BARTHAG) has the highest AIC value of the three variables. This shows that Barttorvik adjusted efficiency and wins above bubble seem to be the better predictors.
 

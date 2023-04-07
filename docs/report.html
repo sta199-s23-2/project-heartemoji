@@ -237,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 </div>
 </div>
 <p>Next, we will clean and read the data. First, we edited the CSV file directly to rename some variables so that RStudio could easily recognize them (i.e., removing spaces). Second, we manually added the March Madness 2023 results (since previously there were no 2023 results) so that we could also use those values within our analysis:</p>
@@ -477,20 +477,9 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 <p>From our initial plotting of each variable to the round number, we found the following three variables to seem to be a strong predictor for success in the tournament: 1) BARTHAG (modeled as modelf), 2) Barttorvik adjusted efficiency (modeled as modelm), and 3) wins above bubble (modeled as modelw).</p>
 <p>We performed a logistic regression on each variable, with the categorical response variable being round.</p>
 <p>AIC, which stands for Akaike information criterion, which is used to compare the fit of models relative to other models. The lower the AIC value the better the model. Below are the three AIC values for the different variables:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"modelf AIC:"</span>, <span class="fu">glance</span>(modelf)<span class="sc">$</span>AIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>modelf AIC: 447.3113</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"modelm AIC:"</span>, <span class="fu">glance</span>(modelm)<span class="sc">$</span>AIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>modelm AIC: 433.7179</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"modelw AIC:"</span>, <span class="fu">glance</span>(modelw)<span class="sc">$</span>AIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>modelw AIC: 434.0668</code></pre>
-</div>
-</div>
+<p>BARTHAG (modelf): 447.3113</p>
+<p>Barttorvik adjusted efficiency (modelm): 433.7179</p>
+<p>Wins above bubble (modelw): 434.0668</p>
 <p>Just comparing AIC values, modelm (Barttorvik adjusted efficiency) had the lowest value, while modelw (Wins above Bubble) has just a very slightly higher AIC. Modelf (BARTHAG) has the highest AIC value of the three variables. This shows that Barttorvik adjusted efficiency and wins above bubble seem to be the better predictors.</p>
 <p>ROC (Receiver Operating Characteristic) and AUC (Area Under the ROC Curve) are used to measure how good of a classifier a model is, plotting true and false positive rate, compared to a random classifier. The area under the ROC curve also helps determine how good of a classifier a model is, with AUC = 1.0 being the most ideal model (the higher the AUC the better the model). Below are the three AUC values for the three different variables.</p>
 <p>BARTHAG (modelf): 0.894</p>
