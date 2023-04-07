@@ -133,7 +133,7 @@ cat("modelm AIC:", glance(modelm)$AIC)
 
 ```
 
-Add narrative...
+This model (modelM) has an AIC value of `61.64399`, which is better than modelF.
 
 ModelW (Wu):
 
