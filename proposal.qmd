@@ -23,7 +23,7 @@ The dataset was found on Kaggle.com: https://www.kaggle.com/datasets/nishaanamin
 
 -   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
 
-The data is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2022 not included).
+The data is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2022 not included). We cross-checked with NCAA.com to ensure that the data was accurate.
 
 -   Write a brief description of the observations.
 
@@ -34,16 +34,20 @@ There are `1011` observations and `41` variables in the dataset. They tackle que
 -   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
     -   What statistics, tournament information, and overall predictors are the best for predicting a potential upset?
 
-    -   Developing question (not fleshed out): Does the 2023 March Madness winner align with our model prediction?
+        -   **We are no longer looking into upsets.**
 
-        -   These questions are important because March Madness is a pivotal and important part of the NCAA, and learning more about how to analyze the tournament through data science can foster the intersection between sports and technology. By answering them, we can learn more about what makes an upset and how to predict a winner. The questions themselves are not particularly original, but our insights can be valuable and unique. The target population is anyone interested in March Madness, the NCAA or NBA, or general basketball/sports enthusiasts.
+    -   Developing question (not fleshed out): Does the 2023 March Madness winner align with our model prediction? (Does our model's predicted "most likely to be successful" teams align with the winner of March Madness?)
+
+    -   **NEW:** What factors are the strongest predictors of success in March Madness?
+
+        -   These questions are important because March Madness is a pivotal and important part of the NCAA, and learning more about how to analyze the tournament through data science can foster the intersection between sports and technology. By answering them, we can learn more about what factors are important when predicting a winner. The questions themselves are not particularly original, but our insights can be valuable and unique. The target population is anyone interested in March Madness, the NCAA or NBA, or general basketball/sports enthusiasts.
 -   A description of the research topic along with a concise statement of your hypotheses on this topic.
 
-Focusing on the first research question, our research topic is using both the Tournament Team Data and Upset Count Data from 2008-2023 to try and figure out which predictor will be the best to predict an upset. Our hypothesis is that teams that score the most and give up the most points will do the best. In addition, we will look at previous upsets and analyze trends. Overall, however, we would need to play around with the dataset more before settling on a finalized hypothesis.
+Focusing on the first research question, our research topic is using the Tournament Team Data from 2008-2022 to try and figure out which predictor will be the best to predict success. Our hypothesis is that teams that score the most and give up the most points will do the best. In addition, we will look at previous upsets and analyze trends. Overall, however, we would need to play around with the dataset more before settling on a finalized hypothesis.
 
 -   Identify the types of variables in your research question. Categorical? Quantitative?
 
-There are both categorical variables (e.g., Seed, Year, and Round) and quantitative variables (e.g., Points per Possession Offensive, Points per Possession Defensive, and Strength of Schedule).
+There are both categorical variables (e.g., Seed, Year, and Round) and quantitative variables (e.g., Points per Possession Offensive, Points per Possession Defensive, and Strength of Schedule). There are many variables in our dataset. Within our project, we will be testing the variables in our dataset to discover which variables are the strongest predictors.
 
 ## Literature
 
@@ -57,7 +61,7 @@ The use of statistical analysis to forecast the results of the yearly NCAA Men's
 
 -   In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.
 
-While the article discusses different metrics for statistical forecasting, we are 1). specific to predicting upsets rather than building a bracket, and 2). we use different variables.
+While the article discusses different metrics for statistical forecasting, we are 1). specific to predicting success, and 2). we use different variables.
 
 ## Glimpse of data
 

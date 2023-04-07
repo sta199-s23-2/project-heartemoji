@@ -231,30 +231,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>State when and how it was originally collected (by the original data curator, not necessarily how you found the data).</li>
 </ul>
-<p>The data is pulled from <a href="https://kenpom.com/" class="uri">https://kenpom.com/</a> and <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>.</p>
+<p>The data is pulled from <a href="https://kenpom.com/" class="uri">https://kenpom.com/</a> and <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2022 not included). We cross-checked with NCAA.com to ensure that the data was accurate.</p>
 <ul>
 <li>Write a brief description of the observations.</li>
 </ul>
-<p>There are <code>1011</code> observations and <code>41</code> variables in the dataset.</p>
+<p>There are <code>1011</code> observations and <code>41</code> variables in the dataset. They tackle questions about game &amp; team statistics, details about each March Madness tournament, and more.</p>
 </section>
 <section id="research-question" class="level2">
 <h2 class="anchored" data-anchor-id="research-question">Research question</h2>
 <ul>
-<li>A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)</li>
-</ul>
-<ol type="1">
-<li>What is the best predictor for predicting an upset?</li>
-<li>Does the 2023 March Madness winner align with our model prediction?</li>
-</ol>
-<p>These questions are important because March Madness is a pivotal and important part of the NCAA, and learning more about how to analyze the tournament through data science can foster the intersection between sports and technology.</p>
+<li>A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
 <ul>
+<li><p>What statistics, tournament information, and overall predictors are the best for predicting a potential upset?</p>
+<ul>
+<li><strong>We are no longer looking into upsets.</strong></li>
+</ul></li>
+<li><p>Developing question (not fleshed out): Does the 2023 March Madness winner align with our model prediction? (Does our model’s predicted “most likely to be successful” teams align with the winner of March Madness?)</p></li>
+<li><p><strong>NEW:</strong> What factors are the strongest predictors of success in March Madness?</p>
+<ul>
+<li>These questions are important because March Madness is a pivotal and important part of the NCAA, and learning more about how to analyze the tournament through data science can foster the intersection between sports and technology. By answering them, we can learn more about what factors are important when predicting a winner. The questions themselves are not particularly original, but our insights can be valuable and unique. The target population is anyone interested in March Madness, the NCAA or NBA, or general basketball/sports enthusiasts.</li>
+</ul></li>
+</ul></li>
 <li>A description of the research topic along with a concise statement of your hypotheses on this topic.</li>
 </ul>
-<p>Focusing on the first research question, our research topic is using both the Tournament Team Data and Upset Count Data from 2008-2023 to try and figure out which predictor will be the best to predict an upset. Our hypothesis is that teams that score the most and give up the most points will do the best. In addition, we will look at previous upsets and analyze trends. Overall, however, we would need to play around with the dataset more before settling on a finalized hypothesis.</p>
+<p>Focusing on the first research question, our research topic is using the Tournament Team Data from 2008-2022 to try and figure out which predictor will be the best to predict success. Our hypothesis is that teams that score the most and give up the most points will do the best. In addition, we will look at previous upsets and analyze trends. Overall, however, we would need to play around with the dataset more before settling on a finalized hypothesis.</p>
 <ul>
 <li>Identify the types of variables in your research question. Categorical? Quantitative?</li>
 </ul>
-<p>There are both categorical variables (e.g., Seed, Year, and Round) and quantitative variables (e.g., Points per Possession Offensive, Points per Possession Defensive, and Strength of Schedule).</p>
+<p>There are both categorical variables (e.g., Seed, Year, and Round) and quantitative variables (e.g., Points per Possession Offensive, Points per Possession Defensive, and Strength of Schedule). There are many variables in our dataset. Within our project, we will be testing the variables in our dataset to discover which variables are the strongest predictors.</p>
 </section>
 <section id="literature" class="level2">
 <h2 class="anchored" data-anchor-id="literature">Literature</h2>
@@ -269,7 +273,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.</li>
 </ul>
-<p>While the article discusses different metrics for statistical forecasting, we are 1). specific to predicting upsets rather than building a bracket, and 2). we use different variables.</p>
+<p>While the article discusses different metrics for statistical forecasting, we are 1). specific to predicting success, and 2). we use different variables.</p>
 </section>
 <section id="glimpse-of-data" class="level2">
 <h2 class="anchored" data-anchor-id="glimpse-of-data">Glimpse of data</h2>
@@ -341,31 +345,83 @@ $ TEAM...41                        &lt;chr&gt; "Alabama", "Houston", "Kansas", "
 <section id="introduction-and-data-1" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-and-data-1">Introduction and data</h2>
 <ul>
-<li><p>Identify the source of the data.</p></li>
-<li><p>State when and how it was originally collected (by the original data curator, not necessarily how you found the data).</p></li>
-<li><p>Write a brief description of the observations.</p></li>
+<li><p>Identify the source of the data.</p>
+<p>The data was found on Kaggle (https://www.kaggle.com/datasets/rashikrahmanpritom/heart-attack-analysis-prediction-dataset).</p></li>
+<li><p>State when and how it was originally collected (by the original data curator, not necessarily how you found the data).</p>
+<p>The dataset was found by compiling datasets found online from medical centers by its creator Rashik Rahman. It is not exactly clear when the dataset was created, but it has been updated yearly since it was created.</p></li>
+<li><p>Write a brief description of the observations.</p>
+<p>The observations are centered around medical testing and data for patients. There are things like age, heart rate, and other useful data to know when trying to diagnose someone with a heart attack. In total, there are <code>353</code> observations and <code>14</code> variables.</p></li>
 </ul>
 </section>
 <section id="research-question-1" class="level2">
 <h2 class="anchored" data-anchor-id="research-question-1">Research question</h2>
 <ul>
-<li><p>A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)</p></li>
-<li><p>A description of the research topic along with a concise statement of your hypotheses on this topic.</p></li>
-<li><p>Identify the types of variables in your research question. Categorical? Quantitative?</p></li>
+<li><p>A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.</p>
+<ul>
+<li><p>What measurements and patient information is the best predictor for whether or not the patient will have a heart attack?</p>
+<ul>
+<li>This is a significant question because heart attacks are one of the leading causes of death in America so being better able to recognize signs of one would help human health tremendously.</li>
+</ul></li>
+</ul></li>
+<li><p>A description of the research topic along with a concise statement of your hypotheses on this topic.</p>
+<ul>
+<li>Heart attacks are one of the leading causes of death in America. One of the reasons why they are so fatal is because they are hard to track before they actually happen. This is something that is important for health officials to get better at in order to help improve patient health. Being better able to predict likelihood of a heart attack from data already available would be a highly useful tool. Our hypothesis on the topic is that people who are older, people with a higher resting heart rate, and people who experience chest pain are more likely to experience a heart attack.</li>
+</ul></li>
+<li><p>Identify the types of variables in your research question. Categorical? Quantitative?</p>
+<ul>
+<li>Chest pain and heart attack are all categorical variables. Resting heart rate and age are quantitative variables.</li>
+</ul></li>
 </ul>
 </section>
 <section id="literature-1" class="level2">
 <h2 class="anchored" data-anchor-id="literature-1">Literature</h2>
 <ul>
-<li><p>Find one published credible article on the topic you are interested in researching.</p></li>
-<li><p>Provide a one paragraph summary about the article.</p></li>
-<li><p>In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.</p></li>
+<li><p>Find one published credible article on the topic you are interested in researching.</p>
+<ul>
+<li>Alexander CA, Wang L (2017) Big Data Analytics in Heart Attack Prediction. J Nurs Care 6: 393. doi:10.4172/2167-1168.1000393</li>
+</ul></li>
+<li><p>Provide a one paragraph summary about the article.</p>
+<ul>
+<li>This article focuses on using heart attack data to make a prediction about finding heart attacks before they happen. It takes data from thousands of heart attack patients to try to develop a model to better predict heart attacks and prevent them. In particular, they also focus on how getting certain measurements or readings for a test should impact the care that a patient is receiving from their care provider. Much of the article explains how they sourced their data and how they eventually were able to create a model that they felt was useful in big data and heart attacks.</li>
+</ul></li>
+<li><p>In 1-2 sentences, explain how your research question builds on / is different than the article you have cited.</p>
+<ul>
+<li>Our research question builds on the article by continuing to add more variables to the Big Data Equation and finding an even more accurate and concise model for predicting heart attacks.</li>
+</ul></li>
 </ul>
 </section>
 <section id="glimpse-of-data-1" class="level2">
 <h2 class="anchored" data-anchor-id="glimpse-of-data-1">Glimpse of data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>heart <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/heart.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 303 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (14): age, sex, cp, trtbps, chol, fbs, restecg, thalachh, exng, oldpeak,...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(heart)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 303
+Columns: 14
+$ age      &lt;dbl&gt; 63, 37, 41, 56, 57, 57, 56, 44, 52, 57, 54, 48, 49, 64, 58, 5…
+$ sex      &lt;dbl&gt; 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1…
+$ cp       &lt;dbl&gt; 3, 2, 1, 1, 0, 0, 1, 1, 2, 2, 0, 2, 1, 3, 3, 2, 2, 3, 0, 3, 0…
+$ trtbps   &lt;dbl&gt; 145, 130, 130, 120, 120, 140, 140, 120, 172, 150, 140, 130, 1…
+$ chol     &lt;dbl&gt; 233, 250, 204, 236, 354, 192, 294, 263, 199, 168, 239, 275, 2…
+$ fbs      &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0…
+$ restecg  &lt;dbl&gt; 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1…
+$ thalachh &lt;dbl&gt; 150, 187, 172, 178, 163, 148, 153, 173, 162, 174, 160, 139, 1…
+$ exng     &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0…
+$ oldpeak  &lt;dbl&gt; 2.3, 3.5, 1.4, 0.8, 0.6, 0.4, 1.3, 0.0, 0.5, 1.6, 1.2, 0.2, 0…
+$ slp      &lt;dbl&gt; 0, 0, 2, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 1, 2, 0, 2, 2, 1…
+$ caa      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0…
+$ thall    &lt;dbl&gt; 1, 2, 2, 2, 2, 1, 2, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3…
+$ output   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -438,7 +494,7 @@ $ TEAM...41                        &lt;chr&gt; "Alabama", "Houston", "Kansas", "
 <section id="glimpse-of-data-2" class="level2">
 <h2 class="anchored" data-anchor-id="glimpse-of-data-2">Glimpse of data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>academic_success <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/dataset.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>academic_success <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/dataset.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4424 Columns: 35
 ── Column specification ────────────────────────────────────────────────────────
@@ -449,7 +505,7 @@ dbl (34): Marital status, Application mode, Application order, Course, Dayti...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(academic_success)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(academic_success)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 4,424
 Columns: 35
