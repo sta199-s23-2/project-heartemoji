@@ -3,7 +3,6 @@ title: "morgan"
 editor: visual
 ---
 
-
 ```{r}
 
 #| label: load-pkgs
@@ -50,7 +49,6 @@ model1 <- logistic_reg() |>
 cat("model1 AIC:", glance(model1)$AIC)
 ```
 
-
 ```{r}
 model1_pred <- predict(model1, test_data, type = "prob")|>  
   bind_cols(test_data |> select(final_four))
@@ -74,4 +72,3 @@ model1_pred |>
     event_level = "first" 
   ) 
 ```
-

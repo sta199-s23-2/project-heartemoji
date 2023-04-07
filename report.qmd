@@ -15,7 +15,7 @@ The goal of our project is to answer the question: What factors are the stronges
 
 The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). However, we will not be using the data for the 2023 March Madness tournament, as it is ongoing. Each observation in the dataset represents a team in that year's tournament.
 
-Relevant variables:
+**Relevant variables**
 
 Turnover percentage: The percentage of a team's possessions that end in a turnover before that team is able to attempt a shot on their own basket. A turnover is defined as a team losing possession to the other team during the course of play or due to an infraction of the rules. (Ken Pomeroy)
 
@@ -57,8 +57,10 @@ We also will filter out rounds that equal 0:
 
 march_madness <- march_madness |>
   filter(round != 0 & round != 68) |>
-  mutate(round = as.factor(round))
-
+  mutate(
+    elite_eight = if_else(round <= 8, "elite eight", "not elite eight"),
+    elite_eight = as.factor(elite_eight)
+  )
 ```
 
 Lastly, to set up our data, we will split it for training and testing:
@@ -67,7 +69,7 @@ Lastly, to set up our data, we will split it for training and testing:
 
 # | label: train-test
 
-set.seed(1234) 
+set.seed(101) 
 march_madness_split <- initial_split(march_madness, prop = 0.80) 
 train_data <- training(march_madness_split)
 test_data <- testing(march_madness_split) 
@@ -107,6 +109,7 @@ ModelM (Mansoor):
 # | label: model-m-boxplot
 
 march_madness |> 
+  mutate(round = as.factor(round)) |> 
   ggplot(aes(x = round, y = b_adj_eff)) +
   geom_boxplot()
 
@@ -118,12 +121,12 @@ march_madness |>
 
 modelm <- logistic_reg() |>
   set_engine("glm") |>
-  fit(round ~ b_adj_eff, data = train_data, family = "binomial")
+  fit(elite_eight ~ b_adj_eff, data = train_data, family = "binomial")
 
 tidy(modelm)
 ```
 
-$\widehat{round}$ = 14.39 - 0.41 \* b_adj_eff
+$\widehat{round}$ = 6.09 - 0.208 \* b_adj_eff
 
 ```{r}
 
@@ -133,7 +136,36 @@ cat("modelm AIC:", glance(modelm)$AIC)
 
 ```
 
-This model (modelM) has an AIC value of `61.64399`, which is better than modelF.
+```{r}
+
+# | label: model-m-ROC
+
+modelm_pred <- predict(modelm, test_data, type = "prob")|>  
+  bind_cols(test_data |> select(elite_eight))
+
+modelm_pred |>
+  roc_curve(
+    truth = elite_eight,
+    `.pred_elite eight`,
+    event_level = "first"
+  ) |>
+  autoplot() +
+  labs(title = "ROC curve for model m")
+
+```
+
+```{r}
+
+modelm_pred |>
+  roc_auc(
+    truth = elite_eight,
+    `.pred_elite eight`, 
+    event_level = "first" 
+  ) 
+
+```
+
+Add narrative...
 
 ModelW (Wu):
 
