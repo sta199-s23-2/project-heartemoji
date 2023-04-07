@@ -20,17 +20,50 @@ march_madness <- read_csv("data/Tournament_Data.csv")
 march_madness <- march_madness |>
   filter(round != 0 & round != 68) |>
   mutate(
-    round = as.factor(round)
+    ##round = as.factor(round),
+    elite_eight = if_else(round <= 8, "elite eight", "not elite eight"),
+    elite_eight = as.factor(elite_eight)
   )
 
-names(march_madness)
+march_madness
 
 ```
 
 ```{r}
-march_madness |> 
-  ggplot(aes(x = round, y = wins_above_bubble)) +
-  geom_boxplot()
 
+set.seed(101)
 
+march_madness_split <- initial_split(march_madness, prop = 0.80) 
+train_data <- training(march_madness_split)
+test_data <- testing(march_madness_split) 
+
+model3 <- logistic_reg() |>
+  set_engine("glm") |>
+  fit(elite_eight ~ wins_above_bubble, data = train_data, family = "binomial")
+
+glance(model3)$AIC
+```
+
+```{r}
+model3_pred <- predict(model3, test_data, type = "prob")|>  
+  bind_cols(test_data |> select(elite_eight))
+
+model3_pred |>
+  roc_curve(
+    truth = elite_eight,
+    `.pred_elite eight`,
+    event_level = "first"
+  ) |>
+  autoplot() +
+  labs(title = "ROC curve for model 3")
+```
+
+```{r}
+
+model3_pred |>
+  roc_auc(
+    truth = elite_eight,
+    `.pred_elite eight`, 
+    event_level = "first" 
+  ) 
 ```
