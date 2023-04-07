@@ -16,14 +16,22 @@ library(tidymodels)
 ```{r}
 #| label: load-data-1
 
-march_madness <- read_csv("data/Tournament Team Data (Including 2023).csv")
+march_madness <- read_csv("data/Tournament_Data.csv")
 
-march_madness |>
-  mutate(B_adj_eff = BARTTORVIK ADJUSTED EFFICIENCY)
+march_madness <- march_madness |>
+  filter(round != 0) |>
+  mutate(
+    round = as.factor(round)
+  )
+
+names(march_madness)
+
 ```
 
 ```{r}
-names(march_madness)
+march_madness |> 
+  ggplot(aes(x = round, y = b_adj_eff)) +
+  geom_boxplot()
 
 
 ```
