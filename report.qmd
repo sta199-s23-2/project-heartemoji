@@ -15,8 +15,6 @@ The goal of our project is to answer the question: What factors are the stronges
 
 The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA.com to fill in the missing data for the 2023 March Madness tournament. The data wrangling is gone into more detail in the following section. Each observation in the dataset represents a team in that year's tournament.
 
-**Data Wrangling- ADD**
-
 **Relevant variables**
 
 Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. We used boxplots as they are pretty clear and effective to show the different numeric distributions for multiple categorical variables. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from <https://www.barttorvik.com/#>.
@@ -31,7 +29,42 @@ Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a tea
 
 **Data Wrangling**
 
-First, let's load the necessary packages:
+The first step to our project was wrangling the data to be usable for R. The initial dataset downloaded from the internet had the following as variable names:
+
+![](Images/Names%20Before%20Edits.png)
+
+There were three issues that we had to change with these names:
+
+1.  The names had spaces in them.
+2.  The names had numbers in them.
+3.  The names had symbols in them.
+4.  The initial data set had 2 columns for "team" so there ended up being a team...3 and team...41 variable.
+
+We made the edits directly in the csv file to rename the columns as well as to delete the second team column. The resulting names are as follows:
+
+![](Images/Names%20After%20Edits.png)
+
+There were many changes that were made to the data set:
+
+1.  The team column in column 41 was deleted.
+2.  All spaces were replaced with an underscore so R would be able to recognize the variable names.
+3.  Many variables were abbreviated so:
+    1.  BARTTORVIK -\> b
+
+    2.  KENPOM -\> k
+
+    3.  \% -\> perc
+
+    4.  offense -\> off
+
+    5.  defense -\> def
+
+    6.  efficiency -\> eff
+
+    7.  adjusted -\> adj
+4.  The initial data set did not include the results for the 2023 tournament so that was manually added.
+
+Then we loaded in the necessary packages:
 
 ```{r}
 #| label: load-packages
@@ -39,9 +72,9 @@ First, let's load the necessary packages:
 library(tidyverse)
 library(tidymodels)
 
-```
+names(march_madness)
 
-Next, we will clean and read the data. First, we edited the CSV file directly to rename some variables so that RStudio could easily recognize them (i.e., removing spaces). Second, we manually added the March Madness 2023 results (since previously there were no 2023 results) so that we could also use those values within our analysis:
+```
 
 ```{r}
 #| label: read-data
