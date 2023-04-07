@@ -30,7 +30,7 @@ names(march_madness)
 
 ```{r}
 march_madness |> 
-  ggplot(aes(x = round, y = b_adj_eff)) +
+  ggplot(aes(x = round, y = ft_perc)) +
   geom_boxplot()
 
 
