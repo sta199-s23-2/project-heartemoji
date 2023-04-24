@@ -142,10 +142,10 @@ model_BARTHAG_pred |>
 
 This is the calculation of the AUC for the BARTHAG model. We got a value of 0.894 for AUC, which is very close to 1, which would have meant that BARTHAG perfectly predicts elite eight teams. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
-Model_Barttorvik:
+Model Barttorvik Adjusted Efficiency (BAE):
 
 ```{r}
-#| label: model-m-boxplot
+#| label: model-BAE-boxplot
 
 march_madness |> 
   mutate(round = as.factor(round)) |> 
@@ -158,27 +158,27 @@ march_madness |>
 
 ```
 
-The median b_adj_eff generally rises as the event progresses through rounds. As the competition progresses, b_adj_eff's variability likewise reduces. The data contains a significant number of outliers, but this is to be expected given the unpredictable and volatile nature of occurrences throughout the NCAA tournament. However, an overall association can be generally observed: b_adj_eff seems to increase as the competition progresses.
+The median barttorvik adjusted efficiency generally rises as the event progresses through rounds. As the competition progresses, BAE variability likewise reduces. The data contains a significant number of outliers, but this is to be expected given the unpredictable and volatile nature of occurrences throughout the NCAA tournament. However, an overall association can be generally observed: BAE seems to increase as the competition progresses.
 
 ```{r}
-#| label: model-m-log-reg
+#| label: model-BAE-log-reg
 
-model_Barttorvik <- logistic_reg() |>
+model_BAE <- logistic_reg() |>
   set_engine("glm") |>
   fit(elite_eight ~ b_adj_eff, data = train_data, family = "binomial")
 
-tidy(modelm)
+tidy(model_BAE)
 ```
 
 $\widehat{round} = 6.09 - 0.208 * b\_adj\_eff$
 
 ```{r}
-#| label: model-m-ROC
+#| label: model-BAE-ROC
 
-model_Barttorvik_pred <- predict(modelm, test_data, type = "prob")|>  
+model_BAE_pred <- predict(model_BAE, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
 
-model_Barttorvik_pred |>
+model_BAE_pred |>
   roc_curve(
     truth = elite_eight,
     `.pred_elite eight`,
@@ -190,9 +190,9 @@ model_Barttorvik_pred |>
 ```
 
 ```{r}
-#| label: model-m-AUC
+#| label: model-BAE-AUC
 
-model_Barttorvik_pred |>
+model_BAE_pred |>
   roc_auc(
     truth = elite_eight,
     `.pred_elite eight`, 
@@ -206,7 +206,7 @@ One of our most significant scores was an AUC of `0.891`, which is the third hig
 Model_WAB (WAB stands for Wins Above Bubble):
 
 ```{r}
-#| label: model-w-boxplot
+#| label: model-WAB-boxplot
 
 march_madness |> 
   mutate(round = as.factor(round)) |> 
@@ -228,7 +228,7 @@ model_WAB <- logistic_reg() |>
   set_engine("glm") |>
   fit(elite_eight ~ wins_above_bubble, data = train_data, family = "binomial")
 
-tidy(modelw)
+tidy(model_WAB)
 ```
 
 This is the creation of a logistic regression model for using wins_above_bubble to predict whether or not a team will make the elite eight. The equation that models this logistic regression is:
@@ -238,7 +238,7 @@ $\widehat{round} = 3.46 - 0.374 * wins\_above\_bubble$
 ```{r}
 #| label: model-WAB-ROC
 
-model_WAB_pred <- predict(modelw, test_data, type = "prob")|>  
+model_WAB_pred <- predict(model_WAB, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
 
 model_WAB_pred |>
@@ -265,6 +265,61 @@ model_WAB_pred |>
 This is the calculation of the AUC for the wins_above_bubble model. We got a value of 0.898 for AUC, which is the highest scores that we got. This means that wins_above_bubble is a good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
 **Fitting an Additive Model**
+
+We believe that an additive model is better than interactive because the three stats we are measuring are not related to each other so it does not make sense for them to interact. We will also use forward selection to create our model as there are only three variables we are considering so backwards modeling is not necessary.
+
+The first model we will fit and test is using BARTHAG and wins above bubble as those two had the highest AUC when tested individually.
+
+```{r}
+#| label: model BARTHAG and WAB
+
+
+model_BARTHAG_WAB <- logistic_reg() |>
+  set_engine("glm") |>
+  fit(elite_eight ~ BARTHAG + wins_above_bubble, data = train_data, family = "binomial")
+
+tidy(model_BARTHAG_WAB)
+
+```
+Fitted equation: $\widehat{round} = 10.07 - 7.93*BARTHAG-0.26*wins\_above\_bubble$
+
+```{r}
+#| label: model BARTHAG and WAB roc curve
+
+
+model_BARTHAG_WAB_pred <- predict(model_BARTHAG_WAB, test_data, type = "prob")|>  
+  bind_cols(test_data |> select(elite_eight))
+
+model_BARTHAG_WAB_pred |>
+  roc_curve(
+    truth = elite_eight,
+    `.pred_elite eight`,
+    event_level = "first"
+  ) |>
+  autoplot() +
+  labs(title = "ROC curve for model WAB")
+```
+```{r}
+#| label: model BARTHAG and WAB AUC 
+
+model_BARTHAG_WAB_pred |>
+  roc_auc(
+    truth = elite_eight,
+    `.pred_elite eight`, 
+    event_level = "first" 
+  ) 
+```
+The AUC for this mdoel is 0.90 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
+
+
+```{r}
+model_BARTHAG_BAE_WAB <- logistic_reg() |>
+  set_engine("glm") |>
+  fit(elite_eight ~ BARTHAG + wins_above_bubble + b_adj_eff, data = train_data, family = "binomial")
+
+tidy(model_BARTHAG_BAE_WAB)
+```
+
 
 # **Results**
 
