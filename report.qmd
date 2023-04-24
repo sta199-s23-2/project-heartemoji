@@ -31,43 +31,6 @@ Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a tea
 
 # **Methodology**
 
-**Data Wrangling**
-
-The first step to our project was wrangling the data to be usable for R. The initial dataset downloaded from the internet had the following as variable names:
-
-![](Images/Names%20Before%20Edits.png)
-
-There were three issues that we had to change with these names:
-
-1.  The names had spaces in them.
-2.  The names had numbers in them.
-3.  The names had symbols in them.
-4.  The initial data set had 2 columns for "team" so there ended up being a team...3 and team...41 variable.
-
-We made the edits directly in the csv file to rename the columns as well as to delete the second team column. The resulting names are as follows:
-
-![](Images/Names%20After%20Edits.png)
-
-There were many changes that were made to the data set:
-
-1.  The team column in column 41 was deleted.
-2.  All spaces were replaced with an underscore so R would be able to recognize the variable names.
-3.  Many variables were abbreviated so:
-    1.  BARTTORVIK -\> b
-
-    2.  KENPOM -\> k
-
-    3.  \% -\> perc
-
-    4.  offense -\> off
-
-    5.  defense -\> def
-
-    6.  efficiency -\> eff
-
-    7.  adjusted -\> adj
-4.  The initial data set did not include the results for the 2023 tournament so that was manually added.
-
 Then we loaded in the necessary packages:
 
 ```{r}
@@ -117,7 +80,7 @@ We decided to use logistic regression for our project because we are trying to p
 
 We further calculate AIC, make a ROC plot, and calculate AUC under the ROC plot to help us find the best-fit model of the three variables we investigated and identify which variable is the best predictor of success in the tournament.
 
-ModelF (Feng):
+ModelBARTHAG:
 
 ```{r}
 #| label: model-f-boxplot
@@ -136,13 +99,13 @@ march_madness |>
 BARTHAG was the best boxplot that I was able to create from the variables that I analyzed. The median score of BARTHAG increases for the most part for each round that the tournaments advances. The lower quartile especially narrows down and becomes more specific. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament.
 
 ```{r}
-#| label: model-f-log-reg
+#| label: model-BARTHAG-log-reg
 
-modelf <- logistic_reg() |>
+model_BARTHAG <- logistic_reg() |>
   set_engine("glm") |>
   fit(elite_eight ~ BARTHAG, data = train_data, family = "binomial")
 
-tidy(modelf)
+tidy(model_BARTHAG)
 ```
 
 This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The equation that models this logistic regression is: $\widehat{round} = 20.92 - 21.32*BARTHAG$.
@@ -150,7 +113,7 @@ This is the creation of a logistic regression model for using BARTHAG to predict
 ```{r}
 #| label: model-f-AIC
 
-cat("modelf AIC:", glance(modelf)$AIC)
+cat("modelf AIC:", glance(model_BARTHAG)$AIC)
 
 ```
 
