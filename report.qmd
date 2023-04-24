@@ -189,8 +189,6 @@ model_Barttorvik_pred |>
 
 ```
 
-
-
 ```{r}
 #| label: model-m-AUC
 
@@ -250,7 +248,7 @@ model_WAB_pred |>
     event_level = "first"
   ) |>
   autoplot() +
-  labs(title = "ROC curve for model w")
+  labs(title = "ROC curve for model WAB")
 ```
 
 ```{r}
@@ -265,6 +263,8 @@ model_WAB_pred |>
 ```
 
 This is the calculation of the AUC for the wins_above_bubble model. We got a value of 0.898 for AUC, which is the highest scores that we got. This means that wins_above_bubble is a good predictor of whether or not a team would make it to the elite eight round of March Madness.
+
+**Fitting an Additive Model**
 
 # **Results**
 
