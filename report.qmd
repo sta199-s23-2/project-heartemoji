@@ -398,11 +398,7 @@ model_WAB_BAE_pred |>
 ```
 This model has an AUC of 0.901.
 
-Finally, this is the model that includes all 3 variables in an additive model:
-=======
-The AUC for this mdoel is 0.90 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
->>>>>>> 6fce69c0a56f04e8371a7eb2bbce99fc9e51cf28
-
+Finally we will fit an additive model of all 3 variables
 ```{r}
 model_BARTHAG_BAE_WAB <- logistic_reg() |>
   set_engine("glm") |>
