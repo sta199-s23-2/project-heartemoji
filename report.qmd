@@ -185,7 +185,7 @@ model_BAE_pred |>
     event_level = "first"
   ) |>
   autoplot() +
-  labs(title = "ROC curve for model Barttorvik")
+  labs(title = "ROC curve for model Barttorvik Adjusted Efficiency")
 
 ```
 
@@ -281,6 +281,7 @@ model_BARTHAG_WAB <- logistic_reg() |>
 tidy(model_BARTHAG_WAB)
 
 ```
+
 Fitted equation: $\widehat{round} = 10.07 - 7.93*BARTHAG-0.26*wins\_above\_bubble$
 
 ```{r}
@@ -299,6 +300,7 @@ model_BARTHAG_WAB_pred |>
   autoplot() +
   labs(title = "ROC curve for model WAB")
 ```
+
 ```{r}
 #| label: model BARTHAG and WAB AUC 
 
@@ -309,8 +311,8 @@ model_BARTHAG_WAB_pred |>
     event_level = "first" 
   ) 
 ```
-The AUC for this mdoel is 0.90 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
 
+The AUC for this mdoel is 0.90 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
 
 ```{r}
 model_BARTHAG_BAE_WAB <- logistic_reg() |>
@@ -319,7 +321,6 @@ model_BARTHAG_BAE_WAB <- logistic_reg() |>
 
 tidy(model_BARTHAG_BAE_WAB)
 ```
-
 
 # **Results**
 
