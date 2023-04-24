@@ -298,15 +298,11 @@ model_BARTHAG_WAB_pred |>
     event_level = "first"
   ) |>
   autoplot() +
-<<<<<<< HEAD
   labs(title = "ROC curve for model BARTHAG + WAB")
-=======
-  labs(title = "ROC curve for model WAB")
 ```
 
 ```{r}
 #| label: model BARTHAG and WAB AUC 
->>>>>>> 6fce69c0a56f04e8371a7eb2bbce99fc9e51cf28
 
 model_BARTHAG_WAB_pred |>
   roc_auc(
@@ -316,7 +312,7 @@ model_BARTHAG_WAB_pred |>
   ) 
 ```
 
-<<<<<<< HEAD
+
 The AUC for this mdoel is 0.902 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
 
 Now we test BARTHAG and BAE, our first and third best individual predictors.
@@ -415,7 +411,6 @@ model_BARTHAG_BAE_WAB <- logistic_reg() |>
 tidy(model_BARTHAG_BAE_WAB)
 ```
 
-<<<<<<< HEAD
 Fitted model: $\widehat{round} = 2.86 + 3.15*BARTHAG - 0.20*wins\_above\_bubble$ $- 0.14 * b\_adj\_eff$
 
 ```{r}
@@ -444,8 +439,6 @@ model_BARTHAG_BAE_WAB_pred |>
 
 We get a AUC value of 0.900, which is actually lower than the previous model that just used BARTHAG and wins above bubble.
 
-=======
->>>>>>> 6fce69c0a56f04e8371a7eb2bbce99fc9e51cf28
 # **Results**
 
 Our research question was: What factors are the strongest predictors of success in March Madness? In our project, we defined "success" as a team making it into the Elite Eight of the tournament. Our original hypothesis was that teams with a high BARTHAG value would be most likely to find success in the tournament.
