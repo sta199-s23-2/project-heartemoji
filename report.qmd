@@ -46,6 +46,8 @@ library(tidymodels)
 
 march_madness <- read_csv("data/Tournament_Data.csv")
 
+march_madness_2023 <- read_csv("data/2023_Tournament_Data.csv")
+
 glimpse(march_madness)
 ```
 
@@ -60,6 +62,11 @@ march_madness <- march_madness |>
     elite_eight = if_else(round <= 8, "elite eight", "not elite eight"),
     elite_eight = as.factor(elite_eight)
   )
+
+march_madness_2023 <- march_madness_2023 |>
+  filter(round != 0 & round != 68) |>
+  mutate(elite_eight = if_else(round <= 8, "elite eight", "not elite eight"),
+         elite_eight = as.factor(elite_eight))
 ```
 
 Lastly, to set up our data, we will split it for training and testing. Training and testing data is important to avoid overfitting:
@@ -178,6 +185,8 @@ $\widehat{round} = 6.09 - 0.208 * b\_adj\_eff$
 model_BAE_pred <- predict(model_BAE, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
 
+model_BAE_pred
+
 model_BAE_pred |>
   roc_curve(
     truth = elite_eight,
@@ -231,9 +240,11 @@ model_WAB <- logistic_reg() |>
 tidy(model_WAB)
 ```
 
-This is the creation of a logistic regression model for using wins_above_bubble to predict whether or not a team will make the elite eight. The equation that models this logistic regression is:
+This is the creation of a logistic regression model for using wins_above_bubble to predict whether or not a team will make the elite eight. The equation that models this logistic regression is, p represents the probability of whether or not round equals 1:
 
-$\widehat{round} = 3.46 - 0.374 * wins\_above\_bubble$
+$log(\hat{p} / (1 - \hat{p})) = 3.46 - 0.374 * wins\_above\_bubble$
+
+e \^ -0.374 = 0.69, as wins above bubble increases by 1 unit, the odds ratio increases by a factor of 0.69
 
 ```{r}
 #| label: model-WAB-ROC
@@ -312,7 +323,6 @@ model_BARTHAG_WAB_pred |>
   ) 
 ```
 
-
 The AUC for this mdoel is 0.902 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
 
 Now we test BARTHAG and BAE, our first and third best individual predictors.
@@ -358,6 +368,7 @@ model_BARTHAG_BAE_pred |>
 The AUC for this model is 0.89.
 
 Now we will do the BAE and WAB model, our second and third best predictors.
+
 ```{r}
 #| label: model WAB and BAE
 
@@ -370,8 +381,7 @@ tidy(model_WAB_BAE)
 
 ```
 
-Fitted equation: $\widehat{round} = 5.07 - 0.20*wins\_above\_bubble$
-$-0.12*b\_adj\_eff$
+Fitted equation: $\widehat{round} = 5.07 - 0.20*wins\_above\_bubble$ $-0.12*b\_adj\_eff$
 
 ```{r}
 #| label: model WAB and BAE roc curve and AUC
@@ -396,9 +406,11 @@ model_WAB_BAE_pred |>
     event_level = "first" 
   ) 
 ```
+
 This model has an AUC of 0.901.
 
 Finally we will fit an additive model of all 3 variables
+
 ```{r}
 model_BARTHAG_BAE_WAB <- logistic_reg() |>
   set_engine("glm") |>
@@ -435,7 +447,25 @@ model_BARTHAG_BAE_WAB_pred |>
 
 We get a AUC value of 0.900, which is actually lower than the previous model that just used BARTHAG and wins above bubble.
 
-# **Results**
+Using our best model to predict for 2023 teams
+
+```{r}
+#| label: testing for 2023 tournament
+
+
+
+
+model_23 <- predict(model_BARTHAG_BAE_WAB, march_madness_2023, type = "prob")|>  
+  bind_cols(march_madness_2023 |> select(elite_eight, team))
+
+model_23 |>
+  arrange(desc(`.pred_elite eight`))
+
+```
+
+Our best model predicted that Alabama, Houston, Purdue, UCLA, Kansas, Gonzaga, Texas, and Arizona would be the elite eight teams from the 2023 tournament. This is a success rate of 25% as it got 2/8 teams correct being Texas and Gonzaga.
+
+**Results**
 
 Our research question was: What factors are the strongest predictors of success in March Madness? In our project, we defined "success" as a team making it into the Elite Eight of the tournament. Our original hypothesis was that teams with a high BARTHAG value would be most likely to find success in the tournament.
 
