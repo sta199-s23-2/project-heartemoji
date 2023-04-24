@@ -454,16 +454,16 @@ Using our best model to predict for 2023 teams
 
 
 
-
-model_23 <- predict(model_BARTHAG_BAE_WAB, march_madness_2023, type = "prob")|>  
+model_2023 <- predict(model_BARTHAG_BAE_WAB, march_madness_2023, type = "prob")|>  
   bind_cols(march_madness_2023 |> select(elite_eight, team))
 
-model_23 |>
+model_2023 |>
   arrange(desc(`.pred_elite eight`))
+
 
 ```
 
-Our best model predicted that Alabama, Houston, Purdue, UCLA, Kansas, Gonzaga, Texas, and Arizona would be the elite eight teams from the 2023 tournament. This is a success rate of 25% as it got 2/8 teams correct being Texas and Gonzaga. Out of these teams only 5 even made it to the Sweet 16 round. Our model is far from perfect, which is to be expected given how volatile the NCAA tournament can be.
+Our best model predicted that Alabama, Houston, Purdue, UCLA, Kansas, Gonzaga, Texas, and Arizona would be the elite eight teams from the 2023 tournament. This is a success rate of 25% as it got 2/8 teams correct being Texas and Gonzaga. Out of these teams only 5 even made it to the Sweet 16 round. Out of the 8 teams it picked, the model predicted that all four 1 seeds, three 2 seeds, and one 3 seed, showing that it had a heavy bias for teams already rated highly by the people making the bracket. This can be expected as normally these are the teams that have performed the best in the regular season and would likely be more poised to be successful on paper. Our model is far from perfect, which is to be expected given how volatile the NCAA tournament can be.
 
 **Results**
 
