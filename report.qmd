@@ -49,7 +49,7 @@ march_madness <- read_csv("data/Tournament_Data.csv")
 glimpse(march_madness)
 ```
 
-We also will filter out rounds that equal 0 or 68 and create a column called "elite_eight":
+We will filter out rounds that equal 0 or 68 as these represent teams that did not make it into the final 64 team tournament. Finally we made a new variable called "elite_eight" that stated whether or not a team made it to at least the elite eight. This was our determined measure of success as a team making it to the elite eight had to win 3 games in a row and would essentially end within the top 12.5% of all tournament teams.
 
 ```{r}
 #| label: clean-data
@@ -78,9 +78,9 @@ test_data <- testing(march_madness_split)
 
 We decided to use logistic regression for our project because we are trying to predict success (making it to the Elite Eight), and our response variable is a categorical variable (round).
 
-We further calculate AIC, make a ROC plot, and calculate AUC under the ROC plot to help us find the best-fit model of the three variables we investigated and identify which variable is the best predictor of success in the tournament.
+We further calculate AIC, make a ROC plot, and calculate AUC under the ROC plot to help us find the best-fit model of the three variables we investigated and identify which variable is the best predictor of success in the tournament. The following are the three best models that we found from our initial exploratory data analysis.
 
-ModelBARTHAG:
+Model_BARTHAG:
 
 ```{r}
 #| label: model-f-boxplot
@@ -111,36 +111,27 @@ tidy(model_BARTHAG)
 This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The equation that models this logistic regression is: $\widehat{round} = 20.92 - 21.32*BARTHAG$.
 
 ```{r}
-#| label: model-f-AIC
-
-cat("modelf AIC:", glance(model_BARTHAG)$AIC)
-
-```
-
-The calculated AIC is 447.3113.
-
-```{r}
 #| label: model-f-ROC
 
-modelf_pred <- predict(modelf, test_data, type = "prob")|>  
+model_BARTHAG_pred <- predict(model_BARTHAG, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
 
-modelf_pred |>
+model_BARTHAG_pred |>
   roc_curve(
     truth = elite_eight,
     `.pred_elite eight`,
     event_level = "first"
   ) |>
   autoplot() +
-  labs(title = "ROC curve for model f")
+  labs(title = "ROC curve for model BARTHAG")
 ```
 
-In this, we generated an ROC curve for BARTHAG to see how good the model was in predicting true positives. From the curve, it seems as if there is significant area underneath the plot.
+In this, we generated an ROC curve for BARTHAG to see how good the model was in predicting true positives. Now, we will calculate the area under the curve (AUC).
 
 ```{r}
 #| label: model-f-AUC
 
-modelf_pred |>
+model_BARTHAG_pred |>
   roc_auc(
     truth = elite_eight,
     `.pred_elite eight`, 
@@ -149,9 +140,9 @@ modelf_pred |>
 
 ```
 
-This is the calculation of the AUC for the BARTHAG model. We got a value of 0.894 for AUC, which is one of the highest scores that we got. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
+This is the calculation of the AUC for the BARTHAG model. We got a value of 0.894 for AUC, which is very close to 1, which would have meant that BARTHAG perfectly predicts elite eight teams. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
-ModelM (Mansoor):
+Model_Barttorvik:
 
 ```{r}
 #| label: model-m-boxplot
@@ -167,12 +158,12 @@ march_madness |>
 
 ```
 
-One of the better boxplots I was able to make using the variables I examined was b_adj_eff. The median b_adj_eff generally rises as the event progresses through rounds. As the competition progresses, b_adj_eff's variability likewise reduces. The data contains a significant number of outliers, but this is to be expected given the unpredictable and volatile nature of occurrences throughout the NCAA tournament. However, an overall association can be generally observed: b_adj_eff seems to increase as the competition progresses.
+The median b_adj_eff generally rises as the event progresses through rounds. As the competition progresses, b_adj_eff's variability likewise reduces. The data contains a significant number of outliers, but this is to be expected given the unpredictable and volatile nature of occurrences throughout the NCAA tournament. However, an overall association can be generally observed: b_adj_eff seems to increase as the competition progresses.
 
 ```{r}
 #| label: model-m-log-reg
 
-modelm <- logistic_reg() |>
+model_Barttorvik <- logistic_reg() |>
   set_engine("glm") |>
   fit(elite_eight ~ b_adj_eff, data = train_data, family = "binomial")
 
@@ -182,37 +173,28 @@ tidy(modelm)
 $\widehat{round} = 6.09 - 0.208 * b\_adj\_eff$
 
 ```{r}
-#| label: model-m-AIC
-
-cat("modelm AIC:", glance(modelm)$AIC)
-
-```
-
-The calculated AIC is `433.7179`, which is the lowest AIC value of all three models.
-
-```{r}
 #| label: model-m-ROC
 
-modelm_pred <- predict(modelm, test_data, type = "prob")|>  
+model_Barttorvik_pred <- predict(modelm, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
 
-modelm_pred |>
+model_Barttorvik_pred |>
   roc_curve(
     truth = elite_eight,
     `.pred_elite eight`,
     event_level = "first"
   ) |>
   autoplot() +
-  labs(title = "ROC curve for model m")
+  labs(title = "ROC curve for model Barttorvik")
 
 ```
 
-In order to evaluate the model's performance in predicting true positives, we created a ROC curve for b_adj_eff. The curvature suggests that there is a significant area underneath the plot.
+
 
 ```{r}
 #| label: model-m-AUC
 
-modelm_pred |>
+model_Barttorvik_pred |>
   roc_auc(
     truth = elite_eight,
     `.pred_elite eight`, 
@@ -221,9 +203,9 @@ modelm_pred |>
 
 ```
 
-This is how the AUC for the b_adj_eff model was determined. One of our most significant scores was an AUC of `0.891`, which is what we obtained here, but it is also the lowest out of the three models given here. This indicates that b_adj_eff is an adequately accurate indicator of whether a team will advance to the March Madness elite eight round.
+One of our most significant scores was an AUC of `0.891`, which is the third highest score that we found. This indicates that b_adj_eff is a fairly strong indicator whether or not a team makes it to the elite eight.
 
-ModelW (Wu):
+Model_WAB (WAB stands for Wins Above Bubble):
 
 ```{r}
 #| label: model-w-boxplot
@@ -239,12 +221,12 @@ march_madness |>
 
 ```
 
-wins_above_bubble was one of the better boxplots I was able to create from the variables that I analyzed. The median wins_above_bubble increases for the most part for each round that the tournaments advances with a few exceptions. As the tournament advance, the variability of wins_above_bubble also decreases. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament. However, a general correlation can be roughly seen: as the tournament advances, wins_above_bubble seems to increase.
+wins_above_bubble was also one of the best boxplots we were able to create from the variables that we analyzed. The median wins_above_bubble increases for the most part for each round that the tournaments advances with a few exceptions. As the tournament advance, the variability of wins_above_bubble also decreases. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament. However, a general correlation can be roughly seen: as the tournament advances, wins_above_bubble seems to increase.
 
 ```{r}
 #| label: model-w-log-reg
 
-modelw <- logistic_reg() |>
+model_WAB <- logistic_reg() |>
   set_engine("glm") |>
   fit(elite_eight ~ wins_above_bubble, data = train_data, family = "binomial")
 
@@ -256,20 +238,12 @@ This is the creation of a logistic regression model for using wins_above_bubble 
 $\widehat{round} = 3.46 - 0.374 * wins\_above\_bubble$
 
 ```{r}
-#| label: model-w-AIC
+#| label: model-WAB-ROC
 
-cat("modelw AIC:", glance(modelw)$AIC)
-```
-
-The calculated AIC is 434.0668, which is a bit larger than that of b_adj_eff, but lower than that of BARTHAG.
-
-```{r}
-#| label: model-w-ROC
-
-modelw_pred <- predict(modelw, test_data, type = "prob")|>  
+model_WAB_pred <- predict(modelw, test_data, type = "prob")|>  
   bind_cols(test_data |> select(elite_eight))
 
-modelw_pred |>
+model_WAB_pred |>
   roc_curve(
     truth = elite_eight,
     `.pred_elite eight`,
@@ -279,12 +253,10 @@ modelw_pred |>
   labs(title = "ROC curve for model w")
 ```
 
-In this, we generated an ROC curve for wins_above_bubble to see how good the model was in predicting true positives. From the curve, it seems as if there is significant area underneath the plot, and the curve lies above the y=x line. This means that we have more true positives than false positives, and we are doing a better job than just predicting a team making elite eight by flipping a coin (a 50% chance).
-
 ```{r}
 #| label: model-w-AUC
 
-modelw_pred |>
+model_WAB_pred |>
   roc_auc(
     truth = elite_eight,
     `.pred_elite eight`, 
@@ -292,7 +264,7 @@ modelw_pred |>
   ) 
 ```
 
-This is the calculation of the AUC for the wins_above_bubble model. We got a value of 0.898 for AUC, which is the highest scores that we got out of the three variables we investigated. This means that wins_above_bubble is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
+This is the calculation of the AUC for the wins_above_bubble model. We got a value of 0.898 for AUC, which is the highest scores that we got. This means that wins_above_bubble is a good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
 # **Results**
 
@@ -304,13 +276,13 @@ We performed a logistic regression on each variable, with the categorical respon
 
 AIC, which stands for Akaike information criterion, which is used to compare the fit of models relative to other models. The lower the AIC value the better the model. Below are the three AIC values for the different variables:
 
-BARTHAG (modelf): 447.3113
+BARTHAG: 447.3113
 
-Barttorvik adjusted efficiency (modelm): 433.7179
+Barttorvik adjusted efficiency: 433.7179
 
-Wins above bubble (modelw): 434.0668
+Wins above bubble: 434.0668
 
-Just comparing AIC values, modelm (Barttorvik adjusted efficiency) had the lowest value, while modelw (Wins above Bubble) has just a very slightly higher AIC. Modelf (BARTHAG) has the highest AIC value of the three variables. This shows that Barttorvik adjusted efficiency and wins above bubble seem to be the better predictors.
+Just comparing AIC values, the BARTHAG model had the lowest value, while the Wins Above Bubble Model has just a very slightly higher AIC. The BARTHAG model has the highest AIC value of the three variables. This shows that Barttorvik adjusted efficiency and wins above bubble seem to be the better predictors.
 
 ROC (Receiver Operating Characteristic) and AUC (Area Under the ROC Curve) are used to measure how good of a classifier a model is, plotting true and false positive rate, compared to a random classifier. The area under the ROC curve also helps determine how good of a classifier a model is, with AUC = 1.0 being the most ideal model (the higher the AUC the better the model). Below are the three AUC values for the three different variables.
 
