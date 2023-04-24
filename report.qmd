@@ -281,6 +281,7 @@ model_BARTHAG_WAB <- logistic_reg() |>
 tidy(model_BARTHAG_WAB)
 
 ```
+
 Fitted equation: $\widehat{round} = 10.07 - 7.93*BARTHAG-0.26*wins\_above\_bubble$
 
 ```{r}
@@ -297,10 +298,7 @@ model_BARTHAG_WAB_pred |>
     event_level = "first"
   ) |>
   autoplot() +
-  labs(title = "ROC curve for model WAB")
-```
-```{r}
-#| label: model BARTHAG and WAB AUC 
+  labs(title = "ROC curve for model BARTHAG + WAB")
 
 model_BARTHAG_WAB_pred |>
   roc_auc(
@@ -309,8 +307,93 @@ model_BARTHAG_WAB_pred |>
     event_level = "first" 
   ) 
 ```
-The AUC for this mdoel is 0.90 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
 
+The AUC for this mdoel is 0.902 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
+
+Now we test BARTHAG and BAE, our first and third best individual predictors.
+
+```{r}
+#| label: model BARTHAG and BAE
+
+
+model_BARTHAG_BAE <- logistic_reg() |>
+  set_engine("glm") |>
+  fit(elite_eight ~ BARTHAG + b_adj_eff, data = train_data, family = "binomial")
+
+tidy(model_BARTHAG_BAE)
+
+```
+
+Fitted equation: $\widehat{round} = 4.13 + 2.80*BARTHAG-0.23*b\_adj\_eff$
+
+```{r}
+#| label: model BARTHAG and BAE roc curve and AUC
+
+
+model_BARTHAG_BAE_pred <- predict(model_BARTHAG_BAE, test_data, type = "prob")|>  
+  bind_cols(test_data |> select(elite_eight))
+
+model_BARTHAG_BAE_pred |>
+  roc_curve(
+    truth = elite_eight,
+    `.pred_elite eight`,
+    event_level = "first"
+  ) |>
+  autoplot() +
+  labs(title = "ROC curve for model BARTHAG + BAE")
+
+model_BARTHAG_BAE_pred |>
+  roc_auc(
+    truth = elite_eight,
+    `.pred_elite eight`, 
+    event_level = "first" 
+  ) 
+```
+
+The AUC for this model is 0.89.
+
+Now we will do the BAE and WAB model, our second and third best predictors.
+```{r}
+#| label: model WAB and BAE
+
+
+model_WAB_BAE <- logistic_reg() |>
+  set_engine("glm") |>
+  fit(elite_eight ~ wins_above_bubble + b_adj_eff, data = train_data, family = "binomial")
+
+tidy(model_WAB_BAE)
+
+```
+
+Fitted equation: $\widehat{round} = 5.07 - 0.20*wins\_above\_bubble$
+$-0.12*b\_adj\_eff$
+
+```{r}
+#| label: model WAB and BAE roc curve and AUC
+
+
+model_WAB_BAE_pred <- predict(model_WAB_BAE, test_data, type = "prob")|>  
+  bind_cols(test_data |> select(elite_eight))
+
+model_WAB_BAE_pred |>
+  roc_curve(
+    truth = elite_eight,
+    `.pred_elite eight`,
+    event_level = "first"
+  ) |>
+  autoplot() +
+  labs(title = "ROC curve for model WAB + BAE")
+
+model_WAB_BAE_pred |>
+  roc_auc(
+    truth = elite_eight,
+    `.pred_elite eight`, 
+    event_level = "first" 
+  ) 
+```
+This model has an AUC of 0.901.
+
+Finally, this is the model that includes all 3 variables in an additive model:
 
 ```{r}
 model_BARTHAG_BAE_WAB <- logistic_reg() |>
@@ -320,6 +403,33 @@ model_BARTHAG_BAE_WAB <- logistic_reg() |>
 tidy(model_BARTHAG_BAE_WAB)
 ```
 
+Fitted model: $\widehat{round} = 2.86 + 3.15*BARTHAG - 0.20*wins\_above\_bubble$ $- 0.14 * b\_adj\_eff$
+
+```{r}
+#| label: model BARTHAG BAE and WAB roc curve
+
+
+model_BARTHAG_BAE_WAB_pred <- predict(model_BARTHAG_BAE_WAB, test_data, type = "prob")|>  
+  bind_cols(test_data |> select(elite_eight))
+
+model_BARTHAG_BAE_WAB_pred |>
+  roc_curve(
+    truth = elite_eight,
+    `.pred_elite eight`,
+    event_level = "first"
+  ) |>
+  autoplot() +
+  labs(title = "ROC curve for model BARTHAG + BAE + WAB")
+
+model_BARTHAG_BAE_WAB_pred |>
+  roc_auc(
+    truth = elite_eight,
+    `.pred_elite eight`, 
+    event_level = "first" 
+  ) 
+```
+
+We get a AUC value of 0.900, which is actually lower than the previous model that just used BARTHAG and wins above bubble.
 
 # **Results**
 
