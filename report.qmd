@@ -177,7 +177,7 @@ model_BAE <- logistic_reg() |>
 tidy(model_BAE)
 ```
 
-$\widehat{round} = 6.09 - 0.208 * b\_adj\_eff$
+$log(\hat{p} / (1 - \hat{p})) = 6.09 - 0.208 * b\_adj\_eff$
 
 ```{r}
 #| label: model-BAE-ROC
@@ -244,7 +244,7 @@ This is the creation of a logistic regression model for using wins_above_bubble 
 
 $log(\hat{p} / (1 - \hat{p})) = 3.46 - 0.374 * wins\_above\_bubble$
 
-e \^ -0.374 = 0.69, as wins above bubble increases by 1 unit, the odds ratio increases by a factor of 0.69
+e \^ -0.374 = 0.69, as wins above bubble increases by 1 unit, the odds ratio is changed by a factor of 0.69
 
 ```{r}
 #| label: model-WAB-ROC
@@ -293,7 +293,7 @@ tidy(model_BARTHAG_WAB)
 
 ```
 
-Fitted equation: $\widehat{round} = 10.07 - 7.93*BARTHAG-0.26*wins\_above\_bubble$
+Fitted equation: $log(\hat{p} / (1 - \hat{p})) = 10.07 - 7.93*BARTHAG-0.26*wins\_above\_bubble$
 
 ```{r}
 #| label: model BARTHAG and WAB roc curve
@@ -339,7 +339,7 @@ tidy(model_BARTHAG_BAE)
 
 ```
 
-Fitted equation: $\widehat{round} = 4.13 + 2.80*BARTHAG-0.23*b\_adj\_eff$
+Fitted equation: $log(\hat{p} / (1 - \hat{p})) = 4.13 + 2.80*BARTHAG-0.23*b\_adj\_eff$
 
 ```{r}
 #| label: model BARTHAG and BAE roc curve and AUC
@@ -381,7 +381,7 @@ tidy(model_WAB_BAE)
 
 ```
 
-Fitted equation: $\widehat{round} = 5.07 - 0.20*wins\_above\_bubble$ $-0.12*b\_adj\_eff$
+Fitted equation: $log(\hat{p} / (1 - \hat{p})) = 5.07 - 0.20*wins\_above\_bubble$ $-0.12*b\_adj\_eff$
 
 ```{r}
 #| label: model WAB and BAE roc curve and AUC
@@ -419,7 +419,7 @@ model_BARTHAG_BAE_WAB <- logistic_reg() |>
 tidy(model_BARTHAG_BAE_WAB)
 ```
 
-Fitted model: $\widehat{round} = 2.86 + 3.15*BARTHAG - 0.20*wins\_above\_bubble$ $- 0.14 * b\_adj\_eff$
+Fitted model: $log(\hat{p} / (1 - \hat{p})) = 2.86 + 3.15*BARTHAG - 0.20*wins\_above\_bubble$ $- 0.14 * b\_adj\_eff$
 
 ```{r}
 #| label: model BARTHAG BAE and WAB roc curve
@@ -452,7 +452,7 @@ Using our best model to predict for 2023 teams
 ```{r}
 #| label: testing for 2023 tournament
 
-model_2023 <- predict(model_BARTHAG_BAE_WAB, march_madness_2023, type = "prob")|>  
+model_2023 <- predict(model_BARTHAG_WAB, march_madness_2023, type = "prob")|>  
   bind_cols(march_madness_2023 |> select(elite_eight, team))
 
 model_2023 |>
