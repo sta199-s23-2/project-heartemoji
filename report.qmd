@@ -452,13 +452,12 @@ Using our best model to predict for 2023 teams
 ```{r}
 #| label: testing for 2023 tournament
 
-
-
 model_2023 <- predict(model_BARTHAG_BAE_WAB, march_madness_2023, type = "prob")|>  
   bind_cols(march_madness_2023 |> select(elite_eight, team))
 
 model_2023 |>
-  arrange(desc(`.pred_elite eight`))
+  arrange(desc(`.pred_elite eight`)) |>
+  head(8)
 
 
 ```
