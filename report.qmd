@@ -90,7 +90,7 @@ We further calculate AIC, make a ROC plot, and calculate AUC under the ROC plot 
 Model_BARTHAG:
 
 ```{r}
-#| label: model-f-boxplot
+#| label: model-BARTHAG-boxplot
 
 march_madness |> 
   mutate(round = as.factor(round)) |>
@@ -115,7 +115,9 @@ model_BARTHAG <- logistic_reg() |>
 tidy(model_BARTHAG)
 ```
 
-This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The equation that models this logistic regression is: $\widehat{round} = 20.92 - 21.32*BARTHAG$.
+This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The equation that models this logistic regression is:
+
+$log(\hat{p} / (1 - \hat{p})) = 20.92 - 21.32*BARTHAG$
 
 ```{r}
 #| label: model-f-ROC
@@ -263,7 +265,7 @@ model_WAB_pred |>
 ```
 
 ```{r}
-#| label: model-w-AUC
+#| label: model-WAB-AUC
 
 model_WAB_pred |>
   roc_auc(
