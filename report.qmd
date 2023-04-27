@@ -13,8 +13,7 @@ Come March, every college basketball fan is focused on one goal: filling out the
 
 In the paper "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket (Downs 2019).
 
-However, even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. According to NCAA.com, the chances of a perfect bracket are "1 in 9,223,372,036,854,775,808 (if you just guess or flip a coin) [or]
-1 in 120.2 billion (if you know a little something about basketball)." 
+However, even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. According to NCAA.com, the chances of a perfect bracket are "1 in 9,223,372,036,854,775,808 (if you just guess or flip a coin) \[or\] 1 in 120.2 billion (if you know a little something about basketball)."
 
 The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining "success" as a team making it into the **Elite Eight** of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.
 
@@ -32,7 +31,7 @@ Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a tea
 
 # **Methodology**
 
-We first loaded in the necessary packages:
+We first loaded in the necessary packages and our data set.
 
 ```{r}
 #| label: load-packages
@@ -49,10 +48,9 @@ march_madness <- read_csv("data/Tournament_Data.csv")
 
 march_madness_2023 <- read_csv("data/2023_Tournament_Data.csv")
 
-glimpse(march_madness)
 ```
 
-We will filter out rounds that equal 0 or 68 as these represent teams that did not make it into the final 64 team tournament. Finally we made a new variable called "elite_eight" that stated whether or not a team made it to at least the elite eight. This was our determined measure of success as a team making it to the elite eight had to win 3 games in a row and would essentially end within the top 12.5% of all tournament teams.
+We filtered out rounds that equaled 0 or 68 as these represented teams that did not make it into the final 64 team tournament. We also made a new variable called "elite_eight" that stated whether or not a team made it to at least the elite eight. This was our determined measure of success as a team making it to the elite eight had to win 3 games in a row and would essentially end within the top 12.5% of all tournament teams.
 
 ```{r}
 #| label: clean-data
@@ -70,7 +68,7 @@ march_madness_2023 <- march_madness_2023 |>
          elite_eight = as.factor(elite_eight))
 ```
 
-Lastly, to set up our data, we will split it for training and testing. Training and testing data is important to avoid overfitting:
+Lastly, to set up our data, we split it for training and testing. Training and testing data is important to avoid overfitting.
 
 ```{r}
 #| label: train-test
@@ -82,13 +80,13 @@ test_data <- testing(march_madness_split)
 
 ```
 
-**Exploratory Plots and Logistic Regression**
+**Exploratory Plots and Logistic Regression:**
 
-We decided to use logistic regression for our project because we are trying to predict success (making it to the Elite Eight), and our response variable is a categorical variable (round).
+We decided to use logistic regression for our project because we are trying to predict success (making it to the Elite Eight), and our response variable is a categorical variable (elite_eight).
 
-We further calculate AIC, make a ROC plot, and calculate AUC under the ROC plot to help us find the best-fit model of the three variables we investigated and identify which variable is the best predictor of success in the tournament. The following are the three best models that we found from our initial exploratory data analysis.
+We further make a ROC plot and calculate AUC to help us find the best-fit model of the three variables we investigated and identify which variable is the best predictor of success in the tournament. The following are the three best models that we found from our initial exploratory data analysis.
 
-Model_BARTHAG:
+**BARTHAG model**
 
 ```{r}
 #| label: model-BARTHAG-boxplot
@@ -104,7 +102,7 @@ march_madness |>
 
 ```
 
-BARTHAG was the best boxplot that I was able to create from the variables that I analyzed. The median score of BARTHAG increases for the most part for each round that the tournaments advances. The lower quartile especially narrows down and becomes more specific. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament.
+BARTHAG was one of the best boxplots that we were able to create when plotting each variable to round number (explained more thoroughly in "Relevant variables" above). The median score of BARTHAG increases for the most part for each round that the tournaments advances. The lower quartile especially narrows down and becomes more specific. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament.
 
 ```{r}
 #| label: model-BARTHAG-log-reg
@@ -116,9 +114,13 @@ model_BARTHAG <- logistic_reg() |>
 tidy(model_BARTHAG)
 ```
 
-This is the creation of a logistic regression model for using BARTHAG to predict whether or not a team will make the elite eight. The equation that models this logistic regression is:
+We created a logistic regression model using BARTHAG to predict whether or not a team will make the elite eight. The equation that models this logistic regression model is:
+
+(where p represents the probability of the team making it to the Elite Eight)
 
 $log(\hat{p} / (1 - \hat{p})) = 20.92 - 21.32*BARTHAG$
+
+$e^{-21.32} = 5.50 * 10^{-10}$, so as BARTHAG increases by 1 unit, the odds ratio is changed by a factor of $5.50 * 10^{-10}$.
 
 ```{r}
 #| label: model-f-ROC
@@ -136,7 +138,7 @@ model_BARTHAG_pred |>
   labs(title = "ROC curve for model BARTHAG")
 ```
 
-In this, we generated an ROC curve for BARTHAG to see how good the model was in predicting true positives. Now, we will calculate the area under the curve (AUC).
+We then generated an ROC curve for BARTHAG to see how good the model was in predicting true positives.
 
 ```{r}
 #| label: model-f-AUC
@@ -150,9 +152,9 @@ model_BARTHAG_pred |>
 
 ```
 
-This is the calculation of the AUC for the BARTHAG model. We got a value of 0.894 for AUC, which is very close to 1, which would have meant that BARTHAG perfectly predicts elite eight teams. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
+Finally, we calculated the AUC for the BARTHAG model. We got a value of 0.894 for AUC, which is very close to 1, which would have meant that BARTHAG perfectly predicts elite eight teams. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
-Model Barttorvik Adjusted Efficiency (BAE):
+**Barttorvik Adjusted Efficiency (BAE) model**
 
 ```{r}
 #| label: model-BAE-boxplot
@@ -168,7 +170,9 @@ march_madness |>
 
 ```
 
-The median barttorvik adjusted efficiency generally rises as the event progresses through rounds. As the competition progresses, BAE variability likewise reduces. The data contains a significant number of outliers, but this is to be expected given the unpredictable and volatile nature of occurrences throughout the NCAA tournament. However, an overall association can be generally observed: BAE seems to increase as the competition progresses.
+From the boxplot, we can see that the median Barttorvik Adjusted Efficiency generally rises as the event progresses through rounds. As the competition progresses, BAE variability likewise reduces. Again, the data contains a significant number of outliers. However, an overall association can be generally observed: BAE seems to increase as the competition progresses.
+
+We repeat the same process as above--finding the logistic regression equation, making an ROC curve, and calculating AUC.
 
 ```{r}
 #| label: model-BAE-log-reg
@@ -180,7 +184,13 @@ model_BAE <- logistic_reg() |>
 tidy(model_BAE)
 ```
 
+The equation that models this logistic regression model is:
+
+(where p represents the probability of the team making it to the Elite Eight)
+
 $log(\hat{p} / (1 - \hat{p})) = 6.09 - 0.208 * b\_adj\_eff$
+
+$e^{-0.208} = 0.81$, so as Barttorvik Adjusted Efficiency increases by 1 unit, the odds ratio is changed by a factor of 0.81.
 
 ```{r}
 #| label: model-BAE-ROC
@@ -213,9 +223,9 @@ model_BAE_pred |>
 
 ```
 
-One of our most significant scores was an AUC of `0.891`, which is the third highest score that we found. This indicates that b_adj_eff is a fairly strong indicator whether or not a team makes it to the elite eight.
+The AUC for the BAE model is 0.891, indicating that BAE is a fairly strong indicator whether or not a team makes it to the elite eight.
 
-Model_WAB (WAB stands for Wins Above Bubble):
+**Wins Above Bubble model**
 
 ```{r}
 #| label: model-WAB-boxplot
@@ -231,7 +241,7 @@ march_madness |>
 
 ```
 
-wins_above_bubble was also one of the best boxplots we were able to create from the variables that we analyzed. The median wins_above_bubble increases for the most part for each round that the tournaments advances with a few exceptions. As the tournament advance, the variability of wins_above_bubble also decreases. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament. However, a general correlation can be roughly seen: as the tournament advances, wins_above_bubble seems to increase.
+From the boxplot, it is observed that the median Wins Above Bubble increases for the most part for each round that the tournaments advances with a few exceptions. As the tournament advance, the variability of WAB also decreases. Again, there are quite a few outliers in the data. However, a general correlation can be roughly seen: as the tournament advances, WAB seems to increase.
 
 ```{r}
 #| label: model-w-log-reg
@@ -243,11 +253,13 @@ model_WAB <- logistic_reg() |>
 tidy(model_WAB)
 ```
 
-This is the creation of a logistic regression model for using wins_above_bubble to predict whether or not a team will make the elite eight. The equation that models this logistic regression is, p represents the probability of whether or not round equals 1:
+The equation that models this logistic regression model is:
+
+(where p represents the probability of the team making it to the Elite Eight)
 
 $log(\hat{p} / (1 - \hat{p})) = 3.46 - 0.374 * wins\_above\_bubble$
 
-e \^ -0.374 = 0.69, as wins above bubble increases by 1 unit, the odds ratio is changed by a factor of 0.69
+$e^{-0.374} = 0.69$, so as Wins Above Bubble increases by 1 unit, the odds ratio is changed by a factor of 0.69.
 
 ```{r}
 #| label: model-WAB-ROC
@@ -276,13 +288,13 @@ model_WAB_pred |>
   ) 
 ```
 
-This is the calculation of the AUC for the wins_above_bubble model. We got a value of 0.898 for AUC, which is the highest scores that we got. This means that wins_above_bubble is a good predictor of whether or not a team would make it to the elite eight round of March Madness.
+The AUC for the Wins Above Bubble model is 0.898. which is the highest value that we got out of the single-variable logistic regression models. This means that WAB is a good predictor of whether or not a team would make it to the elite eight round of March Madness.
 
 **Fitting an Additive Model**
 
 We believe that an additive model is better than interactive because the three stats we are measuring are not related to each other so it does not make sense for them to interact. We will also use forward selection to create our model as there are only three variables we are considering so backwards modeling is not necessary.
 
-The first model we will fit and test is using BARTHAG and wins above bubble as those two had the highest AUC when tested individually.
+The first model we will fit and test is using BARTHAG and Wins Above Bubble as those two had the highest AUC when tested individually.
 
 ```{r}
 #| label: model BARTHAG and WAB
@@ -296,7 +308,11 @@ tidy(model_BARTHAG_WAB)
 
 ```
 
-Fitted equation: $log(\hat{p} / (1 - \hat{p})) = 10.07 - 7.93*BARTHAG-0.26*wins\_above\_bubble$
+The equation that models this logistic regression model is:
+
+(where p represents the probability of the team making it to the Elite Eight)
+
+$log(\hat{p} / (1 - \hat{p})) = 10.07 - 7.93*BARTHAG-0.26*wins\_above\_bubble$
 
 ```{r}
 #| label: model BARTHAG and WAB roc curve
@@ -342,7 +358,11 @@ tidy(model_BARTHAG_BAE)
 
 ```
 
-Fitted equation: $log(\hat{p} / (1 - \hat{p})) = 4.13 + 2.80*BARTHAG-0.23*b\_adj\_eff$
+The equation that models this logistic regression model is:
+
+(where p represents the probability of the team making it to the Elite Eight)
+
+$log(\hat{p} / (1 - \hat{p})) = 4.13 + 2.80*BARTHAG-0.23*b\_adj\_eff$
 
 ```{r}
 #| label: model BARTHAG and BAE roc curve and AUC
@@ -384,7 +404,11 @@ tidy(model_WAB_BAE)
 
 ```
 
-Fitted equation: $log(\hat{p} / (1 - \hat{p})) = 5.07 - 0.20*wins\_above\_bubble$ $-0.12*b\_adj\_eff$
+The equation that models this logistic regression model is:
+
+(where p represents the probability of the team making it to the Elite Eight)
+
+$log(\hat{p} / (1 - \hat{p})) = 5.07 - 0.20*wins\_above\_bubble$ $-0.12*b\_adj\_eff$
 
 ```{r}
 #| label: model WAB and BAE roc curve and AUC
@@ -422,7 +446,11 @@ model_BARTHAG_BAE_WAB <- logistic_reg() |>
 tidy(model_BARTHAG_BAE_WAB)
 ```
 
-Fitted model: $log(\hat{p} / (1 - \hat{p})) = 2.86 + 3.15*BARTHAG - 0.20*wins\_above\_bubble$ $- 0.14 * b\_adj\_eff$
+The equation that models this logistic regression is:
+
+(where p represents the probability of the team making it to the Elite Eight)
+
+$log(\hat{p} / (1 - \hat{p})) = 2.86 + 3.15*BARTHAG - 0.20*wins\_above\_bubble$ $- 0.14 * b\_adj\_eff$
 
 ```{r}
 #| label: model BARTHAG BAE and WAB roc curve
@@ -450,7 +478,7 @@ model_BARTHAG_BAE_WAB_pred |>
 
 We get a AUC value of 0.900, which is actually lower than the previous model that just used BARTHAG and wins above bubble.
 
-Using our best model to predict for 2023 teams
+**Using our best model to predict for 2023 teams**
 
 ```{r}
 #| label: testing for 2023 tournament
@@ -510,4 +538,3 @@ https://kenpom.com/
 https://www.ncaa.com/march-madness-live/scores
 
 https://www.ncaa.com/news/basketball-men/bracketiq/2023-03-16/perfect-ncaa-bracket-absurd-odds-march-madness-dream
-
