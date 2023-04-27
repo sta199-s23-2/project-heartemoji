@@ -22,7 +22,7 @@ The source of the data is from kaggle.com. However, because a lot of the dataset
 
 **Relevant variables**
 
-Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. We used boxplots as they are pretty clear and effective to show the different numeric distributions for multiple categorical variables. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from <https://www.barttorvik.com/#>.
+Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every single variable in the dataset to round number. We used boxplots as they are pretty clear and effective to show the different numeric distributions for multiple categorical variables. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from <https://www.barttorvik.com/#>.
 
 BARTHAG: The team's chance of winning against the average DI team
 
