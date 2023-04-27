@@ -106,6 +106,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#introduction-and-data" id="toc-introduction-and-data" class="nav-link active" data-scroll-target="#introduction-and-data"><strong>Introduction and Data</strong></a></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology"><strong>Methodology</strong></a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><strong>Results</strong></a></li>
   <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations"><strong>Citations</strong></a></li>
   </ul>
 </nav>
@@ -172,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+• Use tidymodels_prefer() to resolve common conflicts.</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -452,7 +453,9 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 </div>
 </div>
 <p>Our best model predicted that Alabama, Houston, Purdue, UCLA, Kansas, Gonzaga, Texas, and Arizona would be the elite eight teams from the 2023 tournament. This is a success rate of 25% as it got 2/8 teams correct being Texas and Gonzaga. Out of these teams only 5 even made it to the Sweet 16 round. Out of the 8 teams it picked, the model predicted that all four 1 seeds, three 2 seeds, and one 3 seed, showing that it had a heavy bias for teams already rated highly by the people making the bracket. This can be expected as normally these are the teams that have performed the best in the regular season and would likely be more poised to be successful on paper. Our model is far from perfect, which is to be expected given how volatile the NCAA tournament can be.</p>
-<p><strong>Results</strong></p>
+</section>
+<section id="results" class="level1">
+<h1><strong>Results</strong></h1>
 <p>Our research question was: What factors are the strongest predictors of success in March Madness? In our project, we defined “success” as a team making it into the Elite Eight of the tournament. Our original hypothesis was that teams with a high BARTHAG value would be most likely to find success in the tournament.</p>
 <p>From our initial plotting of each variable to the round number, we found the following three variables to seem to be a strong predictor for success in the tournament: 1) BARTHAG (modeled as modelf), 2) Barttorvik adjusted efficiency (modeled as modelm), and 3) wins above bubble (modeled as modelw).</p>
 <p>We performed a logistic regression on each variable, with the categorical response variable being round.</p>

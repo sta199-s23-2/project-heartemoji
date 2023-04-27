@@ -495,7 +495,7 @@ model_2023 |>
 
 Our best model predicted that Alabama, Houston, Purdue, UCLA, Kansas, Gonzaga, Texas, and Arizona would be the elite eight teams from the 2023 tournament. This is a success rate of 25% as it got 2/8 teams correct being Texas and Gonzaga. Out of these teams only 5 even made it to the Sweet 16 round. Out of the 8 teams it picked, the model predicted that all four 1 seeds, three 2 seeds, and one 3 seed, showing that it had a heavy bias for teams already rated highly by the people making the bracket. This can be expected as normally these are the teams that have performed the best in the regular season and would likely be more poised to be successful on paper. Our model is far from perfect, which is to be expected given how volatile the NCAA tournament can be.
 
-**Results**
+# **Results**
 
 Our research question was: What factors are the strongest predictors of success in March Madness? In our project, we defined "success" as a team making it into the Elite Eight of the tournament. Our original hypothesis was that teams with a high BARTHAG value would be most likely to find success in the tournament.
 
