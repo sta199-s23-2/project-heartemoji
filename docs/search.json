@@ -107,9 +107,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "TEAM NAME",
+    "title": "heartemoji",
     "section": "",
-    "text": "Add project abstract here."
+    "text": "Every year for the March Madness tournament, tens of millions of people around the world fill out a bracket, hoping that maybe this year they will achieve the perfect bracket. Yet, a perfect bracket is extremely rare. In this project, we used March Madness tournament data from 2008-2022 (no data for 2020) to try to identify the strongest predictors of a team making it to the Elite Eight of the tournament. We focused on the variables, BARTHAG, Wins Above Bubble, and Barttorvik Adjusted Efficiency and fitted them with a logistic regression model. We also tested all the combinations of the variables using an additive logistic regression model. Although we found that most of the models performed roughly the same, the additive model with BARTHAG and Wins Above Bubble was our best model based on AUC. Using this model, we were able to correctly predict 2 out of 8 teams for the 2023 March Madness tournament."
   },
   {
     "objectID": "report.html",
