@@ -13,11 +13,12 @@ Come March, every college basketball fan is focused on one goal: filling out the
 
 In the paper "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket (Downs 2019).
 
-However, even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. We have all tried as well and have failed all the same.
+However, even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. According to NCAA.com, the chances of a perfect bracket are "1 in 9,223,372,036,854,775,808 (if you just guess or flip a coin) [or]
+1 in 120.2 billion (if you know a little something about basketball)." 
 
-The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining "success" as a team making it into the Elite Eight of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.
+The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining "success" as a team making it into the **Elite Eight** of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.
 
-The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA.com to fill in the missing data for the 2023 March Madness tournament. The data wrangling is gone into more detail in the following section. Each observation in the dataset represents a team in that year's tournament.
+The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <https://kenpom.com/> and <https://www.barttorvik.com/#>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA.com to fill in the missing data for the 2023 March Madness tournament. Each observation in the dataset represents a team in that year's tournament.
 
 **Relevant variables**
 
@@ -31,7 +32,7 @@ Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a tea
 
 # **Methodology**
 
-Then we loaded in the necessary packages:
+We first loaded in the necessary packages:
 
 ```{r}
 #| label: load-packages
@@ -507,3 +508,6 @@ https://www.barttorvik.com/#
 https://kenpom.com/
 
 https://www.ncaa.com/march-madness-live/scores
+
+https://www.ncaa.com/news/basketball-men/bracketiq/2023-03-16/perfect-ncaa-bracket-absurd-odds-march-madness-dream
+

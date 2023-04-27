@@ -197,9 +197,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><strong>Introduction and Data</strong></h1>
 <p>Come March, every college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament.</p>
 <p>In the paper “Using Statistics to Build the Ideal March Madness Bracket” by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket (Downs 2019).</p>
-<p>However, even in the 2023 tournament, no websites reported a perfect bracket even after just the first day’s slate of games. We have all tried as well and have failed all the same.</p>
-<p>The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining “success” as a team making it into the Elite Eight of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.</p>
-<p>The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <a href="https://kenpom.com/" class="uri">https://kenpom.com/</a> and <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA.com to fill in the missing data for the 2023 March Madness tournament. The data wrangling is gone into more detail in the following section. Each observation in the dataset represents a team in that year’s tournament.</p>
+<p>However, even in the 2023 tournament, no websites reported a perfect bracket even after just the first day’s slate of games. According to NCAA.com, the chances of a perfect bracket are “1 in 9,223,372,036,854,775,808 (if you just guess or flip a coin) [or] 1 in 120.2 billion (if you know a little something about basketball).”</p>
+<p>The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining “success” as a team making it into the <strong>Elite Eight</strong> of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.</p>
+<p>The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <a href="https://kenpom.com/" class="uri">https://kenpom.com/</a> and <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA.com to fill in the missing data for the 2023 March Madness tournament. Each observation in the dataset represents a team in that year’s tournament.</p>
 <p><strong>Relevant variables</strong></p>
 <p>Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every variable in the dataset to round number. We used boxplots as they are pretty clear and effective to show the different numeric distributions for multiple categorical variables. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>.</p>
 <p>BARTHAG: The team’s chance of winning against the average DI team</p>
@@ -208,7 +208,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="methodology" class="level1">
 <h1><strong>Methodology</strong></h1>
-<p>Then we loaded in the necessary packages:</p>
+<p>We first loaded in the necessary packages:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -237,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ✖ dplyr::lag()      masks stats::lag()
 ✖ yardstick::spec() masks readr::spec()
 ✖ recipes::step()   masks stats::step()
-• Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
+• Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -772,6 +772,7 @@ $ points_per_poss_def   &lt;dbl&gt; 0.922, 0.872, 0.963, 0.974, 0.981, 1.000, 0.
 <p>https://www.barttorvik.com/#</p>
 <p>https://kenpom.com/</p>
 <p>https://www.ncaa.com/march-madness-live/scores</p>
+<p>https://www.ncaa.com/news/basketball-men/bracketiq/2023-03-16/perfect-ncaa-bracket-absurd-odds-march-madness-dream</p>
 
 
 </section>
