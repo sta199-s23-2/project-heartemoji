@@ -294,6 +294,8 @@ The AUC for the Wins Above Bubble model is 0.898. which is the highest value tha
 
 We believe that an additive model is better than interactive because the three stats we are measuring are not related to each other so it does not make sense for them to interact. We will also use forward selection to create our model as there are only three variables we are considering so backwards modeling is not necessary.
 
+**BARTHAG + WAB model**
+
 The first model we will fit and test is using BARTHAG and Wins Above Bubble as those two had the highest AUC when tested individually.
 
 ```{r}
@@ -313,6 +315,8 @@ The equation that models this logistic regression model is:
 (where p represents the probability of the team making it to the Elite Eight)
 
 $log(\hat{p} / (1 - \hat{p})) = 10.07 - 7.93*BARTHAG-0.26*wins\_above\_bubble$
+
+Both variables have a negative coefficient meaning that they both have an odds ratio less than 1 so the odds of a team making it to the Elite Eight for each unit those two variables increase will decrease, holding all else constant. The BARTHAG variable has a larger coefficient meaning it has a greater impact on whether or not a team will make it to the Elite Eight.
 
 ```{r}
 #| label: model BARTHAG and WAB roc curve
@@ -344,6 +348,8 @@ model_BARTHAG_WAB_pred |>
 
 The AUC for this mdoel is 0.902 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
 
+**BARTHAG + BAE model**
+
 Now we test BARTHAG and BAE, our first and third best individual predictors.
 
 ```{r}
@@ -363,6 +369,8 @@ The equation that models this logistic regression model is:
 (where p represents the probability of the team making it to the Elite Eight)
 
 $log(\hat{p} / (1 - \hat{p})) = 4.13 + 2.80*BARTHAG-0.23*b\_adj\_eff$
+
+BARTHAG has a positive coefficient in this relationship meaning that, holding all else constant, the odds ratio of a team making it to the Elite Eight increases each time BARTHAG is increased by one unit. However, Bart Torvik Adjusted Efficiency has a negative coefficient meaning that for each unit it increases the odds of a team making the Elite Eight decreases. The BARTHAG variable has a larger coefficient in magnitude meaning it has a greater impact on whether or not a team will make it to the Elite Eight.
 
 ```{r}
 #| label: model BARTHAG and BAE roc curve and AUC
@@ -390,6 +398,8 @@ model_BARTHAG_BAE_pred |>
 
 The AUC for this model is 0.89.
 
+**BAE + WAB model**
+
 Now we will do the BAE and WAB model, our second and third best predictors.
 
 ```{r}
@@ -409,6 +419,8 @@ The equation that models this logistic regression model is:
 (where p represents the probability of the team making it to the Elite Eight)
 
 $log(\hat{p} / (1 - \hat{p})) = 5.07 - 0.20*wins\_above\_bubble$ $-0.12*b\_adj\_eff$
+
+Both variables have a negative coefficient meaning that they both have an odds ratio less than 1 so the odds of a team making it to the Elite Eight for each unit those two variables increase will decrease, holding all else constant. Both variables have comparably small coefficients so they both don\'t have a great impact on the success of a team making the Elite Eight.
 
 ```{r}
 #| label: model WAB and BAE roc curve and AUC
@@ -436,7 +448,9 @@ model_WAB_BAE_pred |>
 
 This model has an AUC of 0.901.
 
-Finally we will fit an additive model of all 3 variables
+**BARTHAG + BAE + WAB model**
+
+Finally we will fit an additive model of all 3 variables.
 
 ```{r}
 model_BARTHAG_BAE_WAB <- logistic_reg() |>
@@ -451,6 +465,8 @@ The equation that models this logistic regression is:
 (where p represents the probability of the team making it to the Elite Eight)
 
 $log(\hat{p} / (1 - \hat{p})) = 2.86 + 3.15*BARTHAG - 0.20*wins\_above\_bubble$ $- 0.14 * b\_adj\_eff$
+
+BARTHAG again is the only variable that has a positive coefficient meaning that it has a positive effect on the odds of a team making the Elite Eight for each unit that it increases. Wins Above Bubble and Barttorvik Adjusted Efficiency have a negative coefficient so they decrease the odds of a team making the Elite Eight for each unit that they increase. BARTHAG also has by far the greatest magnitude for its coefficient.
 
 ```{r}
 #| label: model BARTHAG BAE and WAB roc curve
@@ -499,33 +515,19 @@ Our best model predicted that Alabama, Houston, Purdue, UCLA, Kansas, Gonzaga, T
 
 Our research question was: What factors are the strongest predictors of success in March Madness? In our project, we defined "success" as a team making it into the Elite Eight of the tournament. Our original hypothesis was that teams with a high BARTHAG value would be most likely to find success in the tournament.
 
-From our initial plotting of each variable to the round number, we found the following three variables to seem to be a strong predictor for success in the tournament: 1) BARTHAG (modeled as modelf), 2) Barttorvik adjusted efficiency (modeled as modelm), and 3) wins above bubble (modeled as modelw).
+From our initial plotting of each variable to the round number, we found the following three variables to seem to be a strong predictor for success in the tournament: 1) BARTHAG, 2) Barttorvik Adjusted Efficiency (or BAE), and 3) Wins Above Bubble (or WAB).
 
-We performed a logistic regression on each variable, with the categorical response variable being round.
+We performed a logistic regression on each variable, with the categorical response variable being whether or not the team made it to the Elite Eight.
 
-AIC, which stands for Akaike information criterion, which is used to compare the fit of models relative to other models. The lower the AIC value the better the model. Below are the three AIC values for the different variables:
+ROC (Receiver Operating Characteristic) and AUC (Area Under the ROC Curve) are used to measure how good of a classifier a model is, plotting true and false positive rate, compared to a random classifier. The area under the ROC curve also helps determine how good of a classifier a model is, with AUC = 1.0 being the most ideal model (the higher the AUC the better the model).
 
-BARTHAG: 447.3113
+|         | BARTHAG | BAE   | WAB   | BARTHAG + WAB | BARTHAG + BAE | BAE + WAB | BARTHAG + BAE + WAB |
+|---------|---------|-------|-------|---------------|---------------|-----------|---------------------|
+| **AUC** | 0.894   | 0.891 | 0.898 | 0.903         | 0.890         | 0.901     | 0.900               |
 
-Barttorvik adjusted efficiency: 433.7179
+Just comparing AUC values, we found that all of the models, no matter what variables used, performed relatively the same when comparing AUC. However, BARTHAG + WAB is just slightly better. Therefore, we used this model when predicting the results of the 2023 March Madness tournament, in which we were able to correctly predict 2 of the 8 teams that made it to the Elite Eight.
 
-Wins above bubble: 434.0668
-
-Just comparing AIC values, the BARTHAG model had the lowest value, while the Wins Above Bubble Model has just a very slightly higher AIC. The BARTHAG model has the highest AIC value of the three variables. This shows that Barttorvik adjusted efficiency and wins above bubble seem to be the better predictors.
-
-ROC (Receiver Operating Characteristic) and AUC (Area Under the ROC Curve) are used to measure how good of a classifier a model is, plotting true and false positive rate, compared to a random classifier. The area under the ROC curve also helps determine how good of a classifier a model is, with AUC = 1.0 being the most ideal model (the higher the AUC the better the model). Below are the three AUC values for the three different variables.
-
-BARTHAG (modelf): 0.894
-
-Barttorvik adjusted efficiency (modelm): 0.891
-
-Wins above bubble (modelw): 0.898
-
-Just comparing AUC values, it shows that all three variables are pretty good predictors of success. Modelw (Wins above bubble) had the highest value, while modelf (BARTHAG) has just a very slightly lower AUC. Modelm (Barttorvik adjusted efficiency) also has just a slightly lower AUC compared to modelw and modelf. This shows that Wins above bubble seem to be the best predictor, but the other variables also show to be very good predictors.
-
-Back to our research question of identifying the strongest predictors of success in March Madness, we found that the three variables we investigated (BARTHAG, Barttorvik adjusted efficiency, and Wins above bubble) are all great predictors. If we were to identify just one variable as the strongest predictor of success, we would point to Wins above bubble as the strongest predictor since it has the highest AUC value and the second lowest AIC value (just higher than Barttorvik adjusted efficiency by \~0.3489.
-
-However, since we found that all three variables are strong predictors, further research can be done by creating an additive logistic regression pairing up combinations of the three variables to find if an additive logistic regression can produce an even lower AIC and higher AUC value.
+Overall, we can conclude that our hypothesis was largely correct as BARTHAG is the only variable in our additive models that have a positive coefficient. This means that it has a positive effect on whether a team makes the elite eight and should be looked into for further testing.
 
 # **Citations**
 
