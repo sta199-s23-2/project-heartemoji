@@ -13,8 +13,6 @@ Come March, every college basketball fan is focused on one goal: filling out the
 
 Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. According to NCAA.com, the chances of a perfect bracket are "1 in 9,223,372,036,854,775,808 (if you just guess or flip a coin) \[or\] 1 in 120.2 billion (if you know a little something about basketball)."
 
-In the paper "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket. Down uses single linear analysis, multiple linear analysis, and polynomial regression in her study and found that the multiple linear analysis performed the best (Downs 2019). Instead of trying to predict a perfect bracket like what Downs attempted, our research intends to predict what teams reach the Elite Eight. We also use different variables in our project. Our research is important since there are so many variables surrounding the March Madness tournament, and it is impossible to analyze every single one in just one study.
-
 The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining "success" as a team making it into the **Elite Eight** of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.
 
 **Data**
@@ -30,6 +28,10 @@ BARTHAG: The team's chance of winning against the average DI team
 Wins Above Bubble: How many more or less wins the average bubble team would have against the team's schedule
 
 Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a team is offensively and defensively
+
+# **Literature Review**
+
+In the paper "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket. Down uses single linear analysis, multiple linear analysis, and polynomial regression in her study and found that the multiple linear analysis performed the best (Downs 2019). Instead of trying to predict a perfect bracket like what Downs attempted, our research intends to predict what teams reach the Elite Eight. We also use different variables in our project. Our research is important since there are so many variables surrounding the March Madness tournament, and it is impossible to analyze every single one in just one study. In our study, we use logistic regression models as well as additive logistic regression models to identify strongest predictors.
 
 # **Methodology**
 
@@ -531,7 +533,7 @@ Below is a table of all the AUC values we got from our models:
 
 Just comparing AUC values, we found that all of the models, no matter what variables used, performed relatively the same when comparing AUC. However, BARTHAG + WAB is just slightly better. Therefore, we used this model when predicting the results of the 2023 March Madness tournament, in which we were able to correctly predict 2 of the 8 teams that made it to the Elite Eight.
 
-# Discussion
+# **Discussion**
 
 Overall, we can conclude that our hypothesis was largely correct as BARTHAG is the only variable in our additive models that have a positive coefficient. This means that it has a positive effect on whether a team makes the elite eight and should be looked into for further testing.
 
