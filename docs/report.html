@@ -107,6 +107,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#introduction-and-data" id="toc-introduction-and-data" class="nav-link active" data-scroll-target="#introduction-and-data"><strong>Introduction and Data</strong></a></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology"><strong>Methodology</strong></a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><strong>Results</strong></a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
   <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations"><strong>Citations</strong></a></li>
   </ul>
 </nav>
@@ -134,9 +135,10 @@ ul.task-list li input[type="checkbox"] {
 <section id="introduction-and-data" class="level1">
 <h1><strong>Introduction and Data</strong></h1>
 <p>Come March, every college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament.</p>
-<p>In the paper “Using Statistics to Build the Ideal March Madness Bracket” by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket (Downs 2019).</p>
-<p>However, even in the 2023 tournament, no websites reported a perfect bracket even after just the first day’s slate of games. According to NCAA.com, the chances of a perfect bracket are “1 in 9,223,372,036,854,775,808 (if you just guess or flip a coin) [or] 1 in 120.2 billion (if you know a little something about basketball).”</p>
+<p>Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day’s slate of games. According to NCAA.com, the chances of a perfect bracket are “1 in 9,223,372,036,854,775,808 (if you just guess or flip a coin) [or] 1 in 120.2 billion (if you know a little something about basketball).”</p>
+<p>In the paper “Using Statistics to Build the Ideal March Madness Bracket” by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket. Down uses single linear analysis, multiple linear analysis, and polynomial regression in her study and found that the multiple linear analysis performed the best (Downs 2019). Instead of trying to predict a perfect bracket like what Downs attempted, our research intends to predict what teams reach the Elite Eight. We also use different variables in our project. Our research is important since there are so many variables surrounding the March Madness tournament, and it is impossible to analyze every single one in just one study.</p>
 <p>The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining “success” as a team making it into the <strong>Elite Eight</strong> of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.</p>
+<p><strong>Data</strong></p>
 <p>The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA.com. We found that the dataset contains accurate information. The data from the dataset is pulled from <a href="https://kenpom.com/" class="uri">https://kenpom.com/</a> and <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA.com to fill in the missing data for the 2023 March Madness tournament. Each observation in the dataset represents a team in that year’s tournament.</p>
 <p><strong>Relevant variables</strong></p>
 <p>Relevant variables were pulled from the dataset by first constructing many boxplots, plotting every single variable in the dataset to round number. We used boxplots as they are pretty clear and effective to show the different numeric distributions for multiple categorical variables. From the boxplots, we roughly estimated which ones seemed to have the highest correlation, and further analyzed them in this report. Below are the three variables we chose to investigate further. They happen to be all from <a href="https://www.barttorvik.com/#" class="uri">https://www.barttorvik.com/#</a>.</p>
@@ -466,8 +468,9 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 <h1><strong>Results</strong></h1>
 <p>Our research question was: What factors are the strongest predictors of success in March Madness? In our project, we defined “success” as a team making it into the Elite Eight of the tournament. Our original hypothesis was that teams with a high BARTHAG value would be most likely to find success in the tournament.</p>
 <p>From our initial plotting of each variable to the round number, we found the following three variables to seem to be a strong predictor for success in the tournament: 1) BARTHAG, 2) Barttorvik Adjusted Efficiency (or BAE), and 3) Wins Above Bubble (or WAB).</p>
-<p>We performed a logistic regression on each variable, with the categorical response variable being whether or not the team made it to the Elite Eight.</p>
+<p>We performed a logistic regression on each variable, with the categorical response variable being whether or not the team made it to the Elite Eight. The equations are provided under “Methodology” as well as the interpretation of the equation coefficients.</p>
 <p>ROC (Receiver Operating Characteristic) and AUC (Area Under the ROC Curve) are used to measure how good of a classifier a model is, plotting true and false positive rate, compared to a random classifier. The area under the ROC curve also helps determine how good of a classifier a model is, with AUC = 1.0 being the most ideal model (the higher the AUC the better the model).</p>
+<p>Below is a table of all the AUC values we got from our models:</p>
 <table class="table">
 <colgroup>
 <col style="width: 9%">
@@ -505,7 +508,12 @@ dbl (39): year, seed, round, k_adj_eff, k_adj_off, k_adj_def, k_adj_tempo, b...
 </tbody>
 </table>
 <p>Just comparing AUC values, we found that all of the models, no matter what variables used, performed relatively the same when comparing AUC. However, BARTHAG + WAB is just slightly better. Therefore, we used this model when predicting the results of the 2023 March Madness tournament, in which we were able to correctly predict 2 of the 8 teams that made it to the Elite Eight.</p>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
 <p>Overall, we can conclude that our hypothesis was largely correct as BARTHAG is the only variable in our additive models that have a positive coefficient. This means that it has a positive effect on whether a team makes the elite eight and should be looked into for further testing.</p>
+<p>Some of our limitations for our project include our limited number of variables that we investigated. We used a pretty rough method of identifying variables to focus on in our project. Our analysis could be improved by including other variables in our investigation as well as changing the “success” level. In our project, we counted making it to the Elite Eight as a “success,” but further analysis could be done to narrow this down to making it to the Final Four or even the National Championship.</p>
+<p>Ideas for future work also include investigating other variables, especially individual statistics. The variables we used in our project were mostly composite statistics, meaning that the creator of these stats–in this case, Bart Torvik–had already taken into account many different variables. Individual statistics, such as free throw percentage, could be interesting to investigate. Also, it would be interesting to look into untraditional variables, such as age of the team, previous success, and school funding, and see if any of them could be good predictors of success.</p>
 </section>
 <section id="citations" class="level1">
 <h1><strong>Citations</strong></h1>
