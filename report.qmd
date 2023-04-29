@@ -31,7 +31,7 @@ Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a tea
 
 # **Literature Review**
 
-In the paper "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket. Down uses single linear analysis, multiple linear analysis, and polynomial regression in her study and found that the multiple linear analysis performed the best[^6]. Instead of trying to predict a perfect bracket like what Downs attempted, our research intends to predict what teams reach the Elite Eight. We also use different variables in our project. Our research is important since there are so many variables surrounding the March Madness tournament, and it is impossible to analyze every single one in just one study. In our study, we use logistic regression models as well as additive logistic regression models to identify strongest predictors.
+In the paper "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket. Down uses single linear analysis, multiple linear analysis, and polynomial regression in her study and found that the multiple linear analysis performed the best[^6]. Instead of trying to predict a perfect bracket like what Downs attempted, our research intends to predict what teams reach the Elite Eight. We also use different variables in our project. Our research is important since there are so many variables surrounding the March Madness tournament, and it is impossible to analyze every single one in just one study. In our study, we use logistic regression models as well as additive logistic regression models to identify the strongest predictors.
 
 [^6]: Downs, Sarah. "Using Statistics to Create the Perfect March Madness Bracket." Journal of Sports Analytics, vol. 5, no. 2, 2019. https://escholarship.org/uc/item/7s99n4nq
 
@@ -56,7 +56,7 @@ march_madness_2023 <- read_csv("data/2023_Tournament_Data.csv")
 
 ```
 
-We filtered out rounds that equaled 0 or 68 as these represented teams that did not make it into the final 64 team tournament. We also made a new variable called "elite_eight" that stated whether or not a team made it to at least the elite eight. This was our determined measure of success as a team making it to the elite eight had to win 3 games in a row and would essentially end within the top 12.5% of all tournament teams.
+We filtered out rounds that equaled 0 or 68 as these represented teams that did not make it into the final 64 team tournament. We also made a new variable called "elite_eight" that stated whether or not a team made it to at least the Elite Eight. This was our determined measure of success as a team making it to the Elite Eight had to win 3 games in a row and would essentially end within the top 12.5% of all tournament teams.
 
 ```{r}
 #| label: clean-data
@@ -74,7 +74,7 @@ march_madness_2023 <- march_madness_2023 |>
          elite_eight = as.factor(elite_eight))
 ```
 
-Lastly, to set up our data, we split it for training and testing. Training and testing data is important to avoid overfitting.
+Lastly, to set up our data, we split it for training and testing. Training and testing data are important to avoid overfitting.
 
 ```{r}
 #| label: train-test
@@ -108,7 +108,7 @@ march_madness |>
 
 ```
 
-BARTHAG was one of the best boxplots that we were able to create when plotting each variable to round number (explained more thoroughly in "Relevant variables" above). The median score of BARTHAG increases for the most part for each round that the tournaments advances. The lower quartile especially narrows down and becomes more specific. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament.
+BARTHAG was one of the best boxplots that we were able to create when plotting each variable to round number (explained more thoroughly in "Relevant variables" above). The median score of BARTHAG increases for the most part for each round that the tournament advances. The lower quartile especially narrows down and becomes more specific. There are quite a few outliers in the data but that is to be expected given the unpredictability and volatility of events during the NCAA tournament.
 
 ```{r}
 #| label: model-BARTHAG-log-reg
@@ -120,7 +120,7 @@ model_BARTHAG <- logistic_reg() |>
 tidy(model_BARTHAG)
 ```
 
-We created a logistic regression model using BARTHAG to predict whether or not a team will make the elite eight. The equation that models this logistic regression model is:
+We created a logistic regression model using BARTHAG to predict whether or not a team will make the Elite Eight. The equation that models this logistic regression model is:
 
 (where p represents the probability of the team making it to the Elite Eight)
 
@@ -158,7 +158,7 @@ model_BARTHAG_pred |>
 
 ```
 
-Finally, we calculated the AUC for the BARTHAG model. We got a value of 0.894 for AUC, which is very close to 1, which would have meant that BARTHAG perfectly predicts elite eight teams. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the elite eight round of March Madness.
+Finally, we calculated the AUC for the BARTHAG model. We got a value of 0.894 for AUC, which is very close to 1, which would have meant that BARTHAG perfectly predicts Elite Eight teams. This means that BARTHAG is a fairly good predictor of whether or not a team would make it to the Elite Eight round of March Madness.
 
 **Barttorvik Adjusted Efficiency (BAE) model**
 
@@ -229,7 +229,7 @@ model_BAE_pred |>
 
 ```
 
-The AUC for the BAE model is 0.891, indicating that BAE is a fairly strong indicator whether or not a team makes it to the elite eight.
+The AUC for the BAE model is 0.891, indicating that BAE is a fairly strong indicator of whether or not a team makes it to the Elite Eight.
 
 **Wins Above Bubble model**
 
@@ -247,7 +247,7 @@ march_madness |>
 
 ```
 
-From the boxplot, it is observed that the median Wins Above Bubble increases for the most part for each round that the tournaments advances with a few exceptions. As the tournament advance, the variability of WAB also decreases. Again, there are quite a few outliers in the data. However, a general correlation can be roughly seen: as the tournament advances, WAB seems to increase.
+From the boxplot, it is observed that the median Wins Above Bubble increases for the most part for each round that the tournament advances with a few exceptions. As the tournament advance, the variability of WAB also decreases. Again, there are quite a few outliers in the data. However, a general correlation can be roughly seen: as the tournament advances, WAB seems to increase.
 
 ```{r}
 #| label: model-w-log-reg
@@ -294,11 +294,11 @@ model_WAB_pred |>
   ) 
 ```
 
-The AUC for the Wins Above Bubble model is 0.898. which is the highest value that we got out of the single-variable logistic regression models. This means that WAB is a good predictor of whether or not a team would make it to the elite eight round of March Madness.
+The AUC for the Wins Above Bubble model is 0.898. which is the highest value that we got out of the single-variable logistic regression models. This means that WAB is a good predictor of whether or not a team would make it to the Elite Eight round of March Madness.
 
 **Fitting an Additive Model**
 
-We believe that an additive model is better than interactive because the three stats we are measuring are not related to each other so it does not make sense for them to interact. We will also use forward selection to create our model as there are only three variables we are considering so backwards modeling is not necessary.
+We believe that an additive model is better than an interactive model because the three stats we are measuring are not related to each other so it does not make sense for them to interact. We will also use forward selection to create our model as there are only three variables we are considering so backwards modeling is not necessary.
 
 **BARTHAG + WAB model**
 
@@ -352,7 +352,7 @@ model_BARTHAG_WAB_pred |>
   ) 
 ```
 
-The AUC for this modell is 0.902 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
+The AUC for this model is 0.902 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting Elite Eight success individually.
 
 **BARTHAG + BAE model**
 
@@ -456,7 +456,7 @@ This model has an AUC of 0.901.
 
 **BARTHAG + BAE + WAB model**
 
-Finally we will fit an additive model of all 3 variables.
+Finally, we will fit an additive model of all 3 variables.
 
 ```{r}
 model_BARTHAG_BAE_WAB <- logistic_reg() |>
@@ -515,7 +515,7 @@ model_2023 |>
 
 ```
 
-Our best model predicted that Alabama, Houston, Purdue, UCLA, Kansas, Gonzaga, Texas, and Arizona would be the elite eight teams from the 2023 tournament. This is a success rate of 25% as it got 2/8 teams correct being Texas and Gonzaga. Out of these teams only 5 even made it to the Sweet 16 round. Out of the 8 teams it picked, the model predicted that all four 1 seeds, three 2 seeds, and one 3 seed, showing that it had a heavy bias for teams already rated highly by the people making the bracket. This can be expected as normally these are the teams that have performed the best in the regular season and would likely be more poised to be successful on paper. Our model is far from perfect, which is to be expected given how volatile the NCAA tournament can be.
+Our best model predicted that Alabama, Houston, Purdue, UCLA, Kansas, Gonzaga, Texas, and Arizona would be the Elite Eight teams from the 2023 tournament. This is a success rate of 25% as it got 2/8 teams correct being Texas and Gonzaga. Out of these teams, only 5 even made it to the Sweet 16 round. Out of the 8 teams it picked, the model predicted all four 1 seeds, three 2 seeds, and one 3 seed, showing that it had a heavy bias for teams already rated highly by the people making the bracket. This can be expected as normally these are the teams that have performed the best in the regular season and would likely be more poised to be successful on paper. Our model is far from perfect, which is to be expected given how volatile the NCAA tournament can be.
 
 # **Results**
 
@@ -525,7 +525,7 @@ From our initial plotting of each variable to the round number, we found the fol
 
 We performed a logistic regression on each variable, with the categorical response variable being whether or not the team made it to the Elite Eight. The equations are provided under "Methodology" as well as the interpretation of the equation coefficients.
 
-ROC (Receiver Operating Characteristic) and AUC (Area Under the ROC Curve) are used to measure how good of a classifier a model is, plotting true and false positive rate, compared to a random classifier. The area under the ROC curve also helps determine how good of a classifier a model is, with AUC = 1.0 being the most ideal model (the higher the AUC the better the model).
+ROC (Receiver Operating Characteristic) and AUC (Area Under the ROC Curve) are used to measure how good of a classifier a model is, plotting true and false positive rates, compared to a random classifier. The area under the ROC curve also helps determine how good of a classifier a model is, with AUC = 1.0 being the most ideal model (the higher the AUC the better the model).
 
 Below is a table of all the AUC values we got from our models:
 
@@ -533,15 +533,15 @@ Below is a table of all the AUC values we got from our models:
 |---------|---------|---------|---------|---------|---------|---------|---------|
 | **AUC** | 0.894   | 0.891 | 0.898 | 0.903         | 0.890         | 0.901     | 0.900               |
 
-Just comparing AUC values, we found that all of the models, no matter what variables used, performed relatively the same when comparing AUC. However, BARTHAG + WAB is just slightly better. Therefore, we used this model when predicting the results of the 2023 March Madness tournament, in which we were able to correctly predict 2 of the 8 teams that made it to the Elite Eight.
+Just comparing AUC values, we found that all of the models, no matter what variables were used, performed relatively the same when comparing AUC. However, BARTHAG + WAB is just slightly better. Therefore, we used this model when predicting the results of the 2023 March Madness tournament, in which we were able to correctly predict 2 of the 8 teams that made it to the Elite Eight.
 
 # **Discussion**
 
-Overall, we can conclude that our hypothesis was largely correct as BARTHAG is the only variable in our additive models that have a positive coefficient. This means that it has a positive effect on whether a team makes the elite eight and should be looked into for further testing.
+Overall, we can conclude that our hypothesis was largely correct as BARTHAG is the only variable in our additive models that have a positive coefficient. This means that it has a positive effect on whether a team makes the Elite Eight and should be looked into for further testing.
 
-Some of our limitations for our project include our limited number of variables that we investigated. We used a pretty rough method of identifying variables to focus on in our project. Our analysis could be improved by including other variables in our investigation as well as changing the "success" level. In our project, we counted making it to the Elite Eight as a "success," but further analysis could be done to narrow this down to making it to the Final Four or even the National Championship.
+Some of our limitations for our project include the limited number of variables that we investigated. We used a pretty rough method of identifying variables to focus on in our project. Our analysis could be improved by including other variables in our investigation as well as changing the "success" level. In our project, we counted making it to the Elite Eight as a "success," but further analysis could be done to narrow this down to making it to the Final Four or even the National Championship.
 
-Ideas for future work also include investigating other variables, especially individual statistics. The variables we used in our project were mostly composite statistics, meaning that the creator of these stats--in this case, Bart Torvik--had already taken into account many different variables. Individual statistics, such as free throw percentage, could be interesting to investigate. Also, it would be interesting to look into untraditional variables, such as age of the team, previous success, and school funding, and see if any of them could be good predictors of success.
+Ideas for future work also include investigating other variables, especially individual statistics. The variables we used in our project were mostly composite statistics, meaning that the creator of these stats--in this case, Bart Torvik--had already taken into account many different variables. Individual statistics, such as free throw percentage, could be interesting to investigate. Also, it would be interesting to look into untraditional variables, such as the age of the team, previous success, and school funding, and see if any of them could be good predictors of success.
 
 [^5]: https://www.barttorvik.com/#
 
