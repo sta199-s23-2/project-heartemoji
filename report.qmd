@@ -424,7 +424,7 @@ The equation that models this logistic regression model is:
 
 $log(\hat{p} / (1 - \hat{p})) = 5.07 - 0.20*wins\_above\_bubble$ $-0.12*b\_adj\_eff$
 
-Both variables have a negative coefficient meaning that they both have an odds ratio less than 1 so the odds of a team making it to the Elite Eight for each unit those two variables increase will decrease, holding all else constant. Both variables have comparably small coefficients so they both don\'t have a great impact on the success of a team making the Elite Eight.
+Both variables have a negative coefficient meaning that they both have an odds ratio less than 1 so the odds of a team making it to the Elite Eight for each unit those two variables increase will decrease, holding all else constant. Both variables have comparably small coefficients so they both don't have a great impact on the success of a team making the Elite Eight.
 
 ```{r}
 #| label: model WAB and BAE roc curve and AUC
