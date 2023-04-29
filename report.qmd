@@ -11,13 +11,13 @@ execute:
 
 Come March, every college basketball fan is focused on one goal: filling out the perfect March Madness bracket. They are trying to figure out which lower seeded teams are poised to make a surprise run and which higher seeded teams are not as good as advertised. Some have gotten close but still no bracket has been able to correctly predict all 63 games in a tournament.
 
-Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. According to NCAA.com, the chances of a perfect bracket are "1 in 9,223,372,036,854,775,808 (if you just guess or flip a coin) \[or\] 1 in 120.2 billion (if you know a little something about basketball)."[^1]
+Even in the 2023 tournament, no websites reported a perfect bracket even after just the first day's slate of games. According to NCAA, the chances of a perfect bracket are "1 in 9,223,372,036,854,775,808 (if you just guess or flip a coin) \[or\] 1 in 120.2 billion (if you know a little something about basketball)."[^1]
 
 The goal of our project is to answer the question: What factors are the strongest predictors of success in March Madness? We are defining "success" as a team making it into the **Elite Eight** of the tournament. Our hypothesis is that teams with a high BARTHAG value will most be likely to find success in the tournament.
 
 **Data**
 
-The source of the data is from kaggle.com. However, because a lot of the datasets on kaggle.com are fake, we made sure to cross-check the data with official NCAA data on NCAA[^2]. We found that the dataset contains accurate information. The data from the dataset is pulled from Kenpom[^3] and Barttorvik[^4]. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA to fill in the missing data for the 2023 March Madness tournament. Each observation in the dataset represents a team in that year's tournament.
+The source of the data is from Kaggle[^2]. However, because a lot of the datasets on Kaggle are fake, we made sure to cross-check the data with official NCAA data on NCAA[^3]. We found that the dataset contains accurate information. The data from the dataset is pulled from Kenpom[^4] and Barttorvik[^5]. The data encompasses March Madness tournaments spanning from 2008 - 2023 (2020 not included). Since we downloaded the dataset before the conclusion of the 2023 tournament, we used data from NCAA to fill in the missing data for the 2023 March Madness tournament. Each observation in the dataset represents a team in that year's tournament.
 
 **Relevant variables**
 
@@ -31,9 +31,9 @@ Barttorvik Adjusted Efficiency: Bart Torvik's calculation of how efficient a tea
 
 # **Literature Review**
 
-In the paper "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket. Down uses single linear analysis, multiple linear analysis, and polynomial regression in her study and found that the multiple linear analysis performed the best[^5]. Instead of trying to predict a perfect bracket like what Downs attempted, our research intends to predict what teams reach the Elite Eight. We also use different variables in our project. Our research is important since there are so many variables surrounding the March Madness tournament, and it is impossible to analyze every single one in just one study. In our study, we use logistic regression models as well as additive logistic regression models to identify strongest predictors.
+In the paper "Using Statistics to Build the Ideal March Madness Bracket" by Sarah Downs, Downs emphasizes the use of different statistical forecasting techniques and looks into factors like team performance measures, player statistics, and historical trends to attempt to build the perfect bracket. Down uses single linear analysis, multiple linear analysis, and polynomial regression in her study and found that the multiple linear analysis performed the best[^6]. Instead of trying to predict a perfect bracket like what Downs attempted, our research intends to predict what teams reach the Elite Eight. We also use different variables in our project. Our research is important since there are so many variables surrounding the March Madness tournament, and it is impossible to analyze every single one in just one study. In our study, we use logistic regression models as well as additive logistic regression models to identify strongest predictors.
 
-[^5]: Downs, Sarah. "Using Statistics to Create the Perfect March Madness Bracket." Journal of Sports Analytics, vol. 5, no. 2, 2019. https://escholarship.org/uc/item/7s99n4nq
+[^6]: Downs, Sarah. "Using Statistics to Create the Perfect March Madness Bracket." Journal of Sports Analytics, vol. 5, no. 2, 2019. https://escholarship.org/uc/item/7s99n4nq
 
 # **Methodology**
 
@@ -352,7 +352,7 @@ model_BARTHAG_WAB_pred |>
   ) 
 ```
 
-The AUC for this mdoel is 0.902 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
+The AUC for this modell is 0.902 which means that it is about 1% better than both BARTHAG and wins above bubble at predicting elite eight success individually.
 
 **BARTHAG + BAE model**
 
@@ -498,7 +498,7 @@ model_BARTHAG_BAE_WAB_pred |>
   ) 
 ```
 
-We get a AUC value of 0.900, which is actually lower than the previous model that just used BARTHAG and wins above bubble.
+We get an AUC value of 0.900, which is actually lower than the previous model that just used BARTHAG and wins above bubble.
 
 **Using our best model to predict for 2023 teams**
 
@@ -543,10 +543,12 @@ Some of our limitations for our project include our limited number of variables 
 
 Ideas for future work also include investigating other variables, especially individual statistics. The variables we used in our project were mostly composite statistics, meaning that the creator of these stats--in this case, Bart Torvik--had already taken into account many different variables. Individual statistics, such as free throw percentage, could be interesting to investigate. Also, it would be interesting to look into untraditional variables, such as age of the team, previous success, and school funding, and see if any of them could be good predictors of success.
 
-[^4]: https://www.barttorvik.com/#
+[^5]: https://www.barttorvik.com/#
 
-[^3]: https://kenpom.com/
+[^4]: https://kenpom.com/
 
-[^2]: https://www.ncaa.com/march-madness-live/scores
+[^3]: https://www.ncaa.com/march-madness-live/scores
 
 [^1]: https://www.ncaa.com/news/basketball-men/bracketiq/2023-03-16/perfect-ncaa-bracket-absurd-odds-march-madness-dream
+
+[^2]: https://www.kaggle.com/datasets/nishaanamin/march-madness-data?select=Tournament+Team+Data+%28Including+2023%29.csv
